@@ -1,0 +1,25 @@
+
+
+    . . .  code removed for brevity . . . 
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Federated": "arn:aws:iam::471112573492:oidc-provider/
+                                      token.actions.githubusercontent.com"
+            },
+            "Action": "sts:AssumeRoleWithWebIdentity",
+            "Condition": {
+                "StringEquals": {
+                    "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
+                },
+                "StringLike": {
+                    "token.actions.githubusercontent.com:sub": [
+                        "repo:ranajit-jana/kube-provisioner::ref:refs/heads/main",
+                        "repo:ranajit-jana/kube-provisioner:environment:deployment"
+                    ]
+   . . .  code removed for brevity . . . 
+
+
+
+

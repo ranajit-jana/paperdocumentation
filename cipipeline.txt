@@ -1,0 +1,34 @@
+
+
+name: CI
+on:
+  pull_request:
+    branches: ["main"]
+
+ . . .  code removed for brevity . . . 
+jobs:
+  build:
+ . . .  code removed for brevity . . . 
+      - name: Run Trivy vulnerability scanner in IaC mode
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'config'
+          hide-progress: false
+          scan-ref: ./cloud/aws
+          file-patterns: 'terraform:.*\*.tf:terraform:.*\.tfvars'
+          format: 'sarif'
+          exit-code: '0'
+          ignore-unfixed: true
+          severity: 'CRITICAL'
+          output: 'results.sarif'
+      - name: Upload scanning result
+        run: |
+          cat results.sarif \
+           | jq -r '.runs[].tool[].rules[] | "* \(.id)  -  \t\(.fullDescription.text)\n\n"' >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'results.sarif'
+          category: trivy
