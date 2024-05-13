@@ -8,6 +8,6 @@
         - name: Helm sync
           working-directory: helm
           run: |
-            #echo "kubeoutput : ${{ steps.tf_deploy.outputs.reva_cluster_name }}"
-            aws eks --region us-east-1 update-kubeconfig --name my-eks
+            echo "kubeclustername : ${{ steps.tf_deploy.outputs.reva_cluster_name }}"
+            aws eks --region us-east-1 update-kubeconfig --name ${{kubeclustername}}
             helmfile sync
