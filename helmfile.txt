@@ -1,0 +1,13 @@
+
+
+
+
+        - name: Setup helmfile
+          uses: mamezou-tech/setup-helmfile@v1.2.0
+  
+        - name: Helm sync
+          working-directory: helm
+          run: |
+            #echo "kubeoutput : ${{ steps.tf_deploy.outputs.reva_cluster_name }}"
+            aws eks --region us-east-1 update-kubeconfig --name my-eks
+            helmfile sync
