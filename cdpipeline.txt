@@ -7,3 +7,15 @@
   jobs:
     deployment:
       if: github.event.pull_request.merged == true
+
+
+
+
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4.0.2
+        with:
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::471112573492:role/DeploymentOIDC
+          role-session-name: awssession
+          mask-aws-account-id: false
