@@ -1,0 +1,15 @@
+
+
+
+
+    module "irsa-kube-bench" {
+      source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
+      version = "5.27.0"
+    
+      create_role                    = true
+      role_name                      = "kube_bench_security_hub_role-${module.eks.cluster_name}"
+      provider_url                   = module.eks.oidc_provider
+      role_policy_arns               = [aws_iam_policy.kube_bench_security_hub.arn]
+      oidc_subjects_with_wildcards   = ["system:serviceaccount:kube-bench:*"]
+      oidc_fully_qualified_audiences = ["sts.amazonaws.com"]
+    }
