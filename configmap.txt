@@ -8,23 +8,16 @@ resource "kubernetes_config_map" "aws_auth_new" {
       {
         rolearn  = aws_iam_role.nodegroup_role.arn
         username = "system:node:{{EC2PrivateDNSName}}"
-        groups = [
-          "system:bootstrappers",
-          "system:nodes",
-        ]
+        groups = ["system:bootstrappers","system:nodes", ]
       },
       {
         rolearn  = "arn:aws:iam::4711111221122:role/terraformuser"
         username = "terraformuser"
-        groups = [
-          "system:masters"
-        ]
+        groups = [ "system:masters"]
  . . . Code removed for brevity . . .
     "mapUsers" = yamlencode([
       {
         userarn  = "arn:aws:iam::471111221122:user/kubeuser"
         username = "kubeuser"
-        groups = [
-          "system:masters"
-        ]
+        groups = [ "system:masters"]
  . . . Code removed for brevity . . .
