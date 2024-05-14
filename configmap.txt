@@ -4,7 +4,6 @@ resource "kubernetes_config_map" "aws_auth_new" {
     namespace = "kube-system"
   }
   data = {
-    "mapAccounts" = yamlencode([])
     "mapRoles" = yamlencode([
       {
         rolearn  = aws_iam_role.nodegroup_role.arn
@@ -15,22 +14,17 @@ resource "kubernetes_config_map" "aws_auth_new" {
         ]
       },
       {
-        rolearn  = "arn:aws:iam::471112573492:role/terraformuser"
+        rolearn  = "arn:aws:iam::4711111221122:role/terraformuser"
         username = "terraformuser"
         groups = [
           "system:masters"
         ]
-      },
-    ])
+ . . . Code removed for brevity . . .
     "mapUsers" = yamlencode([
       {
-        userarn  = "arn:aws:iam::471112573492:user/kubeuser"
+        userarn  = "arn:aws:iam::471111221122:user/kubeuser"
         username = "kubeuser"
         groups = [
           "system:masters"
         ]
-      },
-    ])
-  }
  . . . Code removed for brevity . . .
-}
