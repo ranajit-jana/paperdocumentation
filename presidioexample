@@ -5,11 +5,11 @@
         
         # Sample text containing PII
         
-        text_with_sensitive_data = "My name is John Doe and my email is john.doe@example.com."
-        
-        original_results = original_analyzer.analyze(text=text_with_sensitive_data, 
-                                                     language='en',
-                                                     entities=ENTITIES)
+        text_with_pii_data = "My name is John Doe and my email is john.doe@example.com."
+        analyzer = AnalyzerEngine()
+        results = analyzer.analyze(text=text_with_pii_data, 
+                                         language='en',
+                                         entities=ENTITIES)
 
 
       ======================================================================================
