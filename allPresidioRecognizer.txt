@@ -1,0 +1,14 @@
+
+
+
+
+            AadhaarRecognizer
+            AddressRecognizer
+            BankAccountRecognizer
+            CreditCardExpiryDateRecognizer
+            CreditCardRecognizer
+            CreditCardSecurityCodeRecognizer
+            DateOfBirthRecognizer
+            MothersMaidenNameRecognizer
+            PANNumberRecognizer
+            PinCodeRecognizer
