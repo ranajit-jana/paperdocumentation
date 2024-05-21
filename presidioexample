@@ -10,3 +10,9 @@
         original_results = original_analyzer.analyze(text=text_with_sensitive_data, 
                                                      language='en',
                                                      entities=ENTITIES)
+
+
+      ======================================================================================
+      result returned
+    [{"entity_type":"PERSON","start":11,"end":18,"score":0.85, . . removed for brevity . .},
+     {"entity_type":"EMAIL_ADDRESS","start":35,"end":55,"score":1.0, . . removed for brevity . .}}]
