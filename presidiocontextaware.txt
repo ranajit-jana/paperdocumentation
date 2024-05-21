@@ -1,0 +1,12 @@
+
+
+from presidio_analyzer import AnalyzerEngine
+from presidio_analyzer.context_aware_enhancers import LemmaContextAwareEnhancer
+ . . .  Code removed for brevity . . .
+ENTITIES = ["PERSON","EMAIL_ADDRESS","PHONE_NUMBER"]
+analyzer = AnalyzerEngine()
+enhancer = LemmaContextAwareEnhancer(context_prefix_count=1, context_suffix_count=1)
+
+results = analyzer.analyze(text=text_request.text,
+                           language='en',
+                           entities=ENTITIES)
