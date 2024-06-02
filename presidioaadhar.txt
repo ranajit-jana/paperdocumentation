@@ -2,17 +2,15 @@ from presidio_analyzer import PatternRecognizer, Pattern
 class AadhaarRecognizer(PatternRecognizer):
     CONTEXT_WORDS = ["aadhar", "aadhaar", "uidai"]
     def __init__(self):
-        patterns = [
-            Pattern(name='aadhar_pattern1', 
-                    regex=r'\b[2-9]{1}[0-9]{3}\s[0-9]{4}\s[0-9]{4}\b',
-                    score=0.8),
-            Pattern(name='aadhar_pattern2', 
-                    regex=r'\b[2-9]{1}[0-9]{3}\-[0-9]{4}\-[0-9]{4}\s\b',
-                    score=0.8),
-            Pattern(name='aadhar_pattern3', 
-                   regex=r'\b[2-9]{1}[0-9]{11}\b', 
-                   score=0.8),
-        ]
+        patterns = [ Pattern(name='aadhar_pattern1', 
+                     regex=r'\b[2-9]{1}[0-9]{3}\s[0-9]{4}\s[0-9]{4}\b',
+                     score=0.8),
+                     Pattern(name='aadhar_pattern2', 
+                     regex=r'\b[2-9]{1}[0-9]{3}\-[0-9]{4}\-[0-9]{4}\s\b',
+                     score=0.8),
+                     Pattern(name='aadhar_pattern3', 
+                     regex=r'\b[2-9]{1}[0-9]{11}\b', 
+                     score=0.8), ]
         super().__init__(supported_entity="AADHAAR", patterns=patterns)
     def analyze(self, text, entities, nlp_artifacts=None):
         results = super().analyze(text, entities, nlp_artifacts)
@@ -23,7 +21,6 @@ class AadhaarRecognizer(PatternRecognizer):
             window_start = max(0, result.start - 15)
             window_end = min(len(text), result.end + 15)
             context_window = text[window_start:window_end].lower()
-
             for context_word in self.CONTEXT_WORDS:
                 if context_word in context_window:
                     context_found = True
