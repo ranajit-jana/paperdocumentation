@@ -16,9 +16,7 @@ class newInAadhaarRecognizer(InAadhaarRecognizer):
 # Initialize FastAPI app
 app = FastAPI()
 
-ENTITIES = ["PERSON","EMAIL_ADDRESS","LOCATION","PHONE_NUMBER","IN_AADHAAR"]
 
-analyzer = AnalyzerEngine()
 
 
 recognizers = analyzer.get_recognizers()
@@ -39,16 +37,16 @@ analyzer.registry.add_recognizer(newInAadhaarRecognizer())
 
 class TextRequest(BaseModel):
     text: str
-
+ENTITIES = ["PERSON","EMAIL_ADDRESS","LOCATION","PHONE_NUMBER","AADHAAR"]
+analyzer = AnalyzerEngine()
 # Define endpoint to analyze text
 @app.post("/analyze/")
 async def analyze_text(text_request: TextRequest):
-    logger.info("Received request: %s", text_request)
-    print("---------  Inside the method call -------------------")
     try:
         # Analyze the text using Presidio
-        # The current assumption is the data is in english for this study
-        analysis_results = analyzer.analyze(text=text_request.text, language='en' ,entities=ENTITIES)
+        # The current assumption is the data is in English for this study
+        analysis_results = analyzer.analyze(text=text_request.text, 
+                                            language='en' ,entities=ENTITIES)
         print(analysis_results)
         # Return analysis results
         return analysis_results
