@@ -7,14 +7,7 @@ class SpaCyAddressRecognizer(EntityRecognizer):
     def __init__(self, model_path, supported_entities=["ADDRESS"], supported_language="en"):
         super().__init__(supported_entities=supported_entities, supported_language=supported_language)
         current_working_directory = os.getcwd()
-
-        # Print the current working directory
-        print("Current working directory:", current_working_directory)
-        print(" model path" + model_path)
         self.model = spacy.load(model_path)
-        
-    def load(self):
-        pass  # Model is already loaded in __init__
 
     def analyze(self, text, entities, nlp_artifacts=None):
         results = []
