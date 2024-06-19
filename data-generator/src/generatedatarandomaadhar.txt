@@ -50,6 +50,9 @@ def generate_fake_data(passeddata):
     gentext = passeddata.format(name=name, phone_number=phone_number,
                                 address=address, email=email, aadhar=aadhar)
     text = str(gentext)
+    . . . Code removed for brevity . . .
+
+
     # Create entities with spans
     entities = []
     
