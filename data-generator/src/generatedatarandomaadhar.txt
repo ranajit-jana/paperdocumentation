@@ -47,7 +47,8 @@ def generate_fake_data(passeddata):
     # Decode the bytes back to a string using UTF-8 decoding
     aadhar = str(aadhar_gen)
 
-    gentext = passeddata.format(name=name, phone_number=phone_number, address=address, email=email, aadhar=aadhar)
+    gentext = passeddata.format(name=name, phone_number=phone_number,
+                                address=address, email=email, aadhar=aadhar)
     text = str(gentext)
     # Create entities with spans
     entities = []
