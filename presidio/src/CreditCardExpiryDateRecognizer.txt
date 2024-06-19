@@ -1,0 +1,36 @@
+# CreditCardExpiryDateRecognizer.py
+
+from presidio_analyzer import PatternRecognizer, Pattern
+
+class CreditCardExpiryDateRecognizer(PatternRecognizer):
+    CONTEXT_WORDS = [
+        "expiry date", "expiration date", "exp date", "expires", "valid through", "valid until"
+    ]
+
+    def __init__(self):
+        patterns = [
+            Pattern(name='cc_expiry_mm_yy', regex=r'\b(0[1-9]|1[0-2])\/([0-9]{2})\b', score=0.5),
+            Pattern(name='cc_expiry_mm_yyyy', regex=r'\b(0[1-9]|1[0-2])\/([0-9]{4})\b', score=0.5)
+        ]
+        super().__init__(supported_entity="CREDIT_CARD_EXPIRY_DATE", patterns=patterns)
+
+    def analyze(self, text, entities, nlp_artifacts=None):
+        results = super().analyze(text, entities, nlp_artifacts)
+        filtered_results = []
+
+        for result in results:
+            context_found = False
+            # Check for context words around the expiry date
+            window_start = max(0, result.start - 50)
+            window_end = min(len(text), result.end + 50)
+            context_window = text[window_start:window_end].lower()
+
+            for context_word in self.CONTEXT_WORDS:
+                if context_word in context_window:
+                    context_found = True
+                    break
+
+            if context_found:
+                filtered_results.append(result)
+
+        return filtered_results

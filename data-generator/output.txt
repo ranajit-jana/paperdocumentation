@@ -1,0 +1,431 @@
+{
+    "annotations": [
+        [
+            "Advik Babu, lead researcher on the project at H.No. 00\nSandhu Ganj, Imphal 878592. It harnesses the power of renewable resources like solar and wind in a highly efficient and cost-effective manner, paving the way for a cleaner and greener future.",
+            {
+                "entities": [
+                    [
+                        0,
+                        10,
+                        "PERSON"
+                    ],
+                    [
+                        46,
+                        81,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "The price of land at 59, Sinha Zila, Hosur-452267 has gone high as it is near to school.",
+            {
+                "entities": [
+                    [
+                        21,
+                        49,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Purab Bhatnagar will be running for election and he disclosed his contact as H.No. 232\nChakrabarti Marg\nGorakhpur 686223 +910051685812 divitsami@example.net",
+            {
+                "entities": [
+                    [
+                        0,
+                        15,
+                        "PERSON"
+                    ],
+                    [
+                        77,
+                        120,
+                        "ADDRESS"
+                    ],
+                    [
+                        121,
+                        134,
+                        "PHONE_NUMBER"
+                    ],
+                    [
+                        135,
+                        156,
+                        "EMAIL_ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Parliament building is at H.No. 120\nBatra, Gopalpur-930174",
+            {
+                "entities": [
+                    [
+                        26,
+                        58,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "My aadhar card is 293087992854",
+            {
+                "entities": [
+                    [
+                        18,
+                        30,
+                        "IN_AADHAAR"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Uidai number is 871712549003",
+            {
+                "entities": [
+                    [
+                        16,
+                        28,
+                        "IN_AADHAAR"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Bank building is coming up at 41/18\nKapoor Road, Kalyan-Dombivli 826074",
+            {
+                "entities": [
+                    [
+                        30,
+                        71,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "police raided H.No. 644\nBakshi Ganj, Etawah-644992 and they did not find anything",
+            {
+                "entities": [
+                    [
+                        14,
+                        50,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Navya Batra was always living at 39/30\nSolanki, Secunderabad-170326",
+            {
+                "entities": [
+                    [
+                        0,
+                        11,
+                        "PERSON"
+                    ],
+                    [
+                        33,
+                        67,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "20/808, Ganesan\nRampur-828076 was always unreachable for trucks",
+            {
+                "entities": [
+                    [
+                        0,
+                        29,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "iPhone is produced in factory 687, Dada Circle, Dehri 902476",
+            {
+                "entities": [
+                    [
+                        30,
+                        60,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Delivery person will be visiting 35, Halder Street, Vadodara 990682",
+            {
+                "entities": [
+                    [
+                        33,
+                        67,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Hi, my name is Zaina Agate, you can reach me at +918772470041, and I live at H.No. 132, Saini Circle, Giridih 252259. I do have an email thamanabram@example.org and my aadhar number is 973433712124",
+            {
+                "entities": [
+                    [
+                        15,
+                        26,
+                        "PERSON"
+                    ],
+                    [
+                        77,
+                        116,
+                        "ADDRESS"
+                    ],
+                    [
+                        48,
+                        61,
+                        "PHONE_NUMBER"
+                    ],
+                    [
+                        137,
+                        160,
+                        "EMAIL_ADDRESS"
+                    ],
+                    [
+                        185,
+                        197,
+                        "IN_AADHAAR"
+                    ]
+                ]
+            }
+        ],
+        [
+            "I'm Nehmat Krishna, my phone number is +911859092925 and my address is H.No. 70, Hari\nTadipatri 032754",
+            {
+                "entities": [
+                    [
+                        4,
+                        18,
+                        "PERSON"
+                    ],
+                    [
+                        71,
+                        102,
+                        "ADDRESS"
+                    ],
+                    [
+                        39,
+                        52,
+                        "PHONE_NUMBER"
+                    ]
+                ]
+            }
+        ],
+        [
+            "You can contact me at 08119024384 My name is Samarth Kohli and I live at 01, Dar Nagar, Kirari Suleman Nagar-953420",
+            {
+                "entities": [
+                    [
+                        45,
+                        58,
+                        "PERSON"
+                    ],
+                    [
+                        73,
+                        115,
+                        "ADDRESS"
+                    ],
+                    [
+                        22,
+                        33,
+                        "PHONE_NUMBER"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Give me a call anytime at 5904685438",
+            {
+                "entities": [
+                    [
+                        26,
+                        36,
+                        "PHONE_NUMBER"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Drop me a note at katahunar@example.org",
+            {
+                "entities": [
+                    [
+                        18,
+                        39,
+                        "EMAIL_ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "I will be staying at H.No. 648\nIyer Road, Pune-466970 during vacation",
+            {
+                "entities": [
+                    [
+                        21,
+                        53,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Adira Gopal helped us in building a practical financial plan customized to our requirements with 527047103390.",
+            {
+                "entities": [
+                    [
+                        0,
+                        11,
+                        "PERSON"
+                    ],
+                    [
+                        97,
+                        109,
+                        "IN_AADHAAR"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Jayesh Varma action plan is clear and provides a disciplined approach to achieve our financial goals. reach him at 209, Kapadia Circle, Bhimavaram-946379 7694337716 nsathe@example.org",
+            {
+                "entities": [
+                    [
+                        0,
+                        12,
+                        "PERSON"
+                    ],
+                    [
+                        115,
+                        153,
+                        "ADDRESS"
+                    ],
+                    [
+                        154,
+                        164,
+                        "PHONE_NUMBER"
+                    ],
+                    [
+                        165,
+                        183,
+                        "EMAIL_ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "08/376, Tata Street\nTenali-990452 is clear and simple to find. Get started on a financial planning journey.",
+            {
+                "entities": [
+                    [
+                        0,
+                        33,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Tarini Desai receive record patent approvals in FY24.",
+            {
+                "entities": [
+                    [
+                        0,
+                        12,
+                        "PERSON"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Pre-emptive steps, better planning help meet peak power demand in April. contact 78/35\nHans Marg\nPhusro-871620 4624044701 franganathan@example.org",
+            {
+                "entities": [
+                    [
+                        81,
+                        110,
+                        "ADDRESS"
+                    ],
+                    [
+                        111,
+                        121,
+                        "PHONE_NUMBER"
+                    ],
+                    [
+                        122,
+                        146,
+                        "EMAIL_ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Ugly Mahika Walla did not give up H.No. 733\nKhatri Marg\nNaihati-537217",
+            {
+                "entities": [
+                    [
+                        5,
+                        17,
+                        "PERSON"
+                    ],
+                    [
+                        34,
+                        70,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Addressing fkara@example.com in largely qualitative Ela Varkey, without formal mathematics, the six 161219624058 discuss atoms in motion, basic 07/00, Lall Street\nAmravati-832886",
+            {
+                "entities": [
+                    [
+                        52,
+                        62,
+                        "PERSON"
+                    ],
+                    [
+                        144,
+                        178,
+                        "ADDRESS"
+                    ],
+                    [
+                        11,
+                        28,
+                        "EMAIL_ADDRESS"
+                    ],
+                    [
+                        100,
+                        112,
+                        "IN_AADHAAR"
+                    ]
+                ]
+            }
+        ],
+        [
+            "but enriched! The 62/767\nChar Nagar\nHaridwar 171584 won\u2019t simply take you to wiki pages that explain concepts by enlisting a wall of words.",
+            {
+                "entities": [
+                    [
+                        18,
+                        51,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ]
+    ]
+}

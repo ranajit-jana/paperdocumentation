@@ -1,0 +1,112 @@
+import os
+import json
+import sys
+import subprocess
+import argparse
+from tqdm import tqdm
+import spacy
+from spacy.tokens import DocBin
+
+# List of country codes
+country_codes = [
+    "en_IN", "en_AU", "en_CA", "en_GB", "en_NZ",
+    "en_US", "es_ES", "es_MX", "dk_DK"
+]
+
+def install_package(package):
+    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
+def download_model(model):
+    subprocess.check_call([sys.executable, "-m", "spacy", "download", model])
+
+def ensure_dependencies():
+    # Ensure spacy is installed
+    try:
+        import spacy
+    except ImportError:
+        install_package('spacy')
+    
+    # Ensure faker is installed
+    try:
+        from faker import Faker
+    except ImportError:
+        install_package('faker')
+
+    # Ensure necessary spaCy models are downloaded
+    models = ["en_core_web_lg"]
+    for model in models:
+        try:
+            spacy.load(model)
+        except OSError:
+            download_model(model)
+
+def convert_and_add_to_docbin(input_file, nlp, db):
+    with open(input_file, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    
+    train_data_spacy_format = []
+    for record in data['annotations']:
+        text = record[0]
+        entities = record[1]['entities']
+        entities_spacy_format = [(start, end, label) for start, end, label in entities]
+        train_data_spacy_format.append((text, {'entities': entities_spacy_format}))
+    for text, annot in tqdm(train_data_spacy_format):
+        doc = nlp.make_doc(text)
+        ents = []
+        for start, end, label in annot["entities"]:
+            span = doc.char_span(start, end, label=label, alignment_mode="contract")
+            if span is None:
+                print("Skipping entity")
+            else:
+                ents.append(span)
+        doc.ents = ents
+        db.add(doc)
+
+def main(train_dir, test_dir, output_dir):
+    # Ensure dependencies are installed
+    ensure_dependencies()
+    
+    # Load the spaCy model
+    nlp = spacy.load("en_core_web_lg")
+    
+    # Create DocBin objects
+    train_db = DocBin()
+    test_db = DocBin()
+
+    # Convert and combine training and testing data for each country
+    for country_code in country_codes:
+        # Define file paths
+        train_input_file = f"{train_dir}/address_{country_code}_train.json"
+        test_input_file = f"{test_dir}/address_{country_code}_test.json"
+        
+        # Convert and add training data to DocBin
+        convert_and_add_to_docbin(train_input_file, nlp, train_db)
+        print(f"Added {train_input_file} to train DocBin")
+        
+        # Convert and add testing data to DocBin
+        convert_and_add_to_docbin(test_input_file, nlp, test_db)
+        print(f"Added {test_input_file} to test DocBin")
+
+    # Save combined data to .spacy files
+    train_output_file = f"{output_dir}/train.spacy"
+    test_output_file = f"{output_dir}/test.spacy"
+    train_db.to_disk(train_output_file)
+    test_db.to_disk(test_output_file)
+    # Train the spaCy model
+    command = f"python3 -m spacy train config.cfg --output {output_dir} 
+              --paths.train {train_output_file} --paths.dev {test_output_file}"
+    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = process.communicate()
+    # Print the training output
+    print(stdout.decode("utf-8"))
+    if stderr:
+        print(stderr.decode("utf-8"))
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Train a spaCy NER model with address data.")
+    parser.add_argument("--train-dir", type=str, required=True, help="Directory containing training JSON files")
+    parser.add_argument("--test-dir", type=str, required=True, help="Directory containing testing JSON files")
+    parser.add_argument("--output-dir", type=str, required=True, help="Directory to save the output and .spacy files")
+    
+    args = parser.parse_args()
+    main(args.train_dir, args.test_dir, args.output_dir)

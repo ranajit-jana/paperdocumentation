@@ -1,0 +1,36 @@
+# IndianBankAccountRecognizer.py
+
+from presidio_analyzer import PatternRecognizer, Pattern
+
+class AccountRecognizer(PatternRecognizer):
+    CONTEXT_WORDS = ["account number", "bank account", "account no", "a/c no", "a/c",
+                     "savings account", "current account", "loan account", "salary account", "checking account",
+                     "fixed deposit account", "recurring deposit account", "nre account", "nro account", 
+                     "demat account", "investment account", "iban"]
+
+    def __init__(self):
+        patterns = [
+            Pattern(name='indian_bank_account', regex=r'\b\d{9,18}\b', score=0.5)
+        ]
+        super().__init__(supported_entity="BANK_ACCOUNT", patterns=patterns)
+
+    def analyze(self, text, entities, nlp_artifacts=None):
+        results = super().analyze(text, entities, nlp_artifacts)
+        filtered_results = []
+
+        for result in results:
+            context_found = False
+            # Check for context words around the bank account number
+            window_start = max(0, result.start - 20)
+            window_end = min(len(text), result.end + 20)
+            context_window = text[window_start:window_end].lower()
+
+            for context_word in self.CONTEXT_WORDS:
+                if context_word in context_window:
+                    context_found = True
+                    break
+
+            if context_found:
+                filtered_results.append(result)
+
+        return filtered_results

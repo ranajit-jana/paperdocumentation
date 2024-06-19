@@ -1,0 +1,646 @@
+{
+    "annotations": [
+        [
+            "Our office, situated at 469 Amy Row Apt. 745, Wesleyland, GA 07803, welcomes visitors.",
+            {
+                "entities": [
+                    [
+                        24,
+                        66,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Address: 720 Ruben Port, West Jenniferville, AK 96607",
+            {
+                "entities": [
+                    [
+                        9,
+                        53,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Mailing Address: 20718 Fisher Villages Apt. 098, Brianfurt, PR 71687",
+            {
+                "entities": [
+                    [
+                        17,
+                        68,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Billing Address: 4634 Eric Cove, Lake Lisaton, CO 20064",
+            {
+                "entities": [
+                    [
+                        17,
+                        55,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "I live at 5662 Phillip Gateway, North Catherineton, AR 13009",
+            {
+                "entities": [
+                    [
+                        10,
+                        60,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Meet you at 5569 Dillon Highway, Lake Peterstad, NM 98471",
+            {
+                "entities": [
+                    [
+                        12,
+                        57,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Mailing Address - PSC 0590, Box 2825, APO AE 40037",
+            {
+                "entities": [
+                    [
+                        18,
+                        50,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Billing Address - 9171 Edward Ports Apt. 660, South Bianca, ME 94000",
+            {
+                "entities": [
+                    [
+                        18,
+                        68,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Permanent Address - 225 Sara Courts Apt. 625, Leblancfurt, PR 34558",
+            {
+                "entities": [
+                    [
+                        20,
+                        67,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "address: 68532 Vega Motorway Suite 662, Hickshaven, MH 56579",
+            {
+                "entities": [
+                    [
+                        9,
+                        60,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "I'll see you at 3576 Aguilar Inlet Suite 571, Janicestad, WY 63595 on expected date",
+            {
+                "entities": [
+                    [
+                        16,
+                        66,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "I have a doctor's appointment at 8330 Jones Mountain Apt. 540, Crosbyburgh, AR 43254",
+            {
+                "entities": [
+                    [
+                        33,
+                        84,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "I will be staying at 303 Stephens Street, Pinedaside, NC 88746 during my trip.",
+            {
+                "entities": [
+                    [
+                        21,
+                        62,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "The property is located at 03792 Morales View Apt. 181, Markberg, CO 87540.",
+            {
+                "entities": [
+                    [
+                        27,
+                        74,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Pick me up from 93242 Oneal Groves, South Jaredberg, CO 30712.",
+            {
+                "entities": [
+                    [
+                        16,
+                        61,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "We are moving to 8875 Christopher Fork, West Davidborough, GA 88837 next month.",
+            {
+                "entities": [
+                    [
+                        17,
+                        67,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "The bus will depart from 0994 Nicholas Isle, Rogerfurt, RI 03652 on time.",
+            {
+                "entities": [
+                    [
+                        25,
+                        64,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "My emergency contact address is 67185 Walker Parks Suite 532, Port Patrick, RI 64741.",
+            {
+                "entities": [
+                    [
+                        32,
+                        84,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "My flight departs from 99518 Joshua Estate Apt. 275, Lake Gregory, PA 56016 on time.",
+            {
+                "entities": [
+                    [
+                        23,
+                        75,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Emergency contact address: 96355 Foley Park Apt. 049, West Kim, AK 84671.",
+            {
+                "entities": [
+                    [
+                        27,
+                        72,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "It is a great way of working. The thought was first given by Jamie Clark. He used to stay as 745 Wiley Groves, Lake Austin, ME 86397.",
+            {
+                "entities": [
+                    [
+                        61,
+                        72,
+                        "PERSON"
+                    ],
+                    [
+                        93,
+                        132,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Hi, my name is Emily Martin, you can reach me at 001-258-520-4153x23686, and I live at 03719 Harrison Views Suite 404, Andersonchester, PR 15421. I do have an email dawn08@example.com, and my aadhar number is 766897177765",
+            {
+                "entities": [
+                    [
+                        15,
+                        27,
+                        "PERSON"
+                    ],
+                    [
+                        87,
+                        144,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "I'm Jessica Bennett, my phone number is 4458100833 and my address is 5991 James Square Suite 693, Lake Jessica, MI 19541",
+            {
+                "entities": [
+                    [
+                        4,
+                        19,
+                        "PERSON"
+                    ],
+                    [
+                        69,
+                        120,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "You can contact me at 701.704.4099x885 My name is Amy Baker and I live at 5941 Laura Valley, South Jofurt, ID 67774",
+            {
+                "entities": [
+                    [
+                        50,
+                        59,
+                        "PERSON"
+                    ],
+                    [
+                        74,
+                        115,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "I will be staying at 8641 Olson Mountain, Hannahfurt, VT 94363 during vacation",
+            {
+                "entities": [
+                    [
+                        21,
+                        62,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Tammy Williams. The clear action plan provides a disciplined approach to achieving our financial goals. reach him at 050 Melissa Causeway, Littletown, IN 14887 (564)586-9757 wnorman@example.org",
+            {
+                "entities": [
+                    [
+                        0,
+                        14,
+                        "PERSON"
+                    ],
+                    [
+                        117,
+                        159,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "2387 Thomas Shoals, East Melinda, OK 76794 is clear and simple to find. Get started on a financial planning journey.",
+            {
+                "entities": [
+                    [
+                        0,
+                        42,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Pick-up point: 15959 Michael Lodge Suite 483, Lake Joshua, VI 20541.",
+            {
+                "entities": [
+                    [
+                        15,
+                        67,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "The parcel will go to 527 William Walk, Austinfort, AS 44516.",
+            {
+                "entities": [
+                    [
+                        22,
+                        60,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Expect delivery at 75044 Charles Burg Suite 748, Audreyburgh, MH 81344 on a date",
+            {
+                "entities": [
+                    [
+                        19,
+                        70,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Permanent Address: 96685 Walker Throughway, South Jason, KY 85915",
+            {
+                "entities": [
+                    [
+                        19,
+                        65,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Address - 27583 Dana Fords, East Jessicafurt, NE 51509",
+            {
+                "entities": [
+                    [
+                        10,
+                        54,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Mailing address: 17647 Kerry Spur, Foxside, WA 49370",
+            {
+                "entities": [
+                    [
+                        17,
+                        52,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Billing address: 9900 Tammy Shores Apt. 723, Petersonville, CO 13531",
+            {
+                "entities": [
+                    [
+                        17,
+                        68,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Permanent address: 8272 Hunter Spur, Tannertown, NY 38700",
+            {
+                "entities": [
+                    [
+                        19,
+                        57,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "address: 32543 James Wells Suite 099, Lake Pamela, NH 03615",
+            {
+                "entities": [
+                    [
+                        9,
+                        59,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "mailing address: Unit 9618 Box 1487, DPO AA 80301",
+            {
+                "entities": [
+                    [
+                        17,
+                        49,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "billing address: 8128 Lori Track, Collinsborough, RI 63674",
+            {
+                "entities": [
+                    [
+                        17,
+                        58,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "permanent address: 28359 Alison Tunnel Apt. 480, South Stevenburgh, NY 30874",
+            {
+                "entities": [
+                    [
+                        19,
+                        76,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "address 399 Ronald Landing, Jenkinsstad, MS 37471",
+            {
+                "entities": [
+                    [
+                        8,
+                        49,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "mailing address 5281 Aaron Estates Suite 914, Jerryfort, NY 59781",
+            {
+                "entities": [
+                    [
+                        16,
+                        65,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "billing address 385 Clayton Forge Apt. 238, North Lindsey, ID 61276",
+            {
+                "entities": [
+                    [
+                        16,
+                        67,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "permanent address 18246 Michael Place, New Jesseburgh, AR 20727",
+            {
+                "entities": [
+                    [
+                        18,
+                        63,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Pre-emptive steps and better planning help meet peak power demand in April. contact 967 Travis Loaf Suite 315, Brownfurt, PR 73213 407-317-8207 mckenziechristina@example.com",
+            {
+                "entities": [
+                    [
+                        84,
+                        130,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Ugly Xavier Bradshaw did not give up 67264 Nicole Vista, Jacobton, AK 02670",
+            {
+                "entities": [
+                    [
+                        5,
+                        20,
+                        "PERSON"
+                    ],
+                    [
+                        37,
+                        75,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "but enriched! The 9273 Amy Stravenue Suite 674, Port Shelbyburgh, HI 45915 won\u2019t simply take you to wiki pages that explain concepts by enlisting a wall of words.",
+            {
+                "entities": [
+                    [
+                        18,
+                        74,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Let's meet for coffee in the morning at 4342 Rachel Motorway, East Renee, MO 03867.",
+            {
+                "entities": [
+                    [
+                        40,
+                        82,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "I will be staying at 905 Warner Ranch, Jennifershire, CT 45383",
+            {
+                "entities": [
+                    [
+                        21,
+                        62,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Our office is located at 7268 Haley Inlet, Nolanshire, WA 33742",
+            {
+                "entities": [
+                    [
+                        25,
+                        63,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Let's meet at 91600 Williams Gateway, New Stephenbury, AK 71384 for coffee.",
+            {
+                "entities": [
+                    [
+                        14,
+                        63,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "The party will be at 378 Brian Shores, Fredfurt, MA 06093",
+            {
+                "entities": [
+                    [
+                        21,
+                        57,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ]
+    ]
+}

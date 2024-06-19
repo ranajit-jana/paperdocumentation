@@ -1,0 +1,35 @@
+#cvv csc cvc
+# CreditCardSecurityCodeRecognizer.py
+
+from presidio_analyzer import PatternRecognizer, Pattern
+
+class CreditCardSecurityCodeRecognizer(PatternRecognizer):
+    CONTEXT_WORDS = ["cvv", "cvc", "csc", "security code", "card verification value", "card verification code", "card security code"]
+
+    def __init__(self):
+        patterns = [
+            Pattern(name='cvv_3_digits', regex=r'\b[0-9]{3}\b', score=0.5),
+            Pattern(name='cvv_4_digits', regex=r'\b[0-9]{4}\b', score=0.5)
+        ]
+        super().__init__(supported_entity="CREDIT_CARD_CVV", patterns=patterns)
+
+    def analyze(self, text, entities, nlp_artifacts=None):
+        results = super().analyze(text, entities, nlp_artifacts)
+        filtered_results = []
+
+        for result in results:
+            context_found = False
+            # Check for context words around the CVV, CVC, or CSC code
+            window_start = max(0, result.start - 20)
+            window_end = min(len(text), result.end + 20)
+            context_window = text[window_start:window_end].lower()
+
+            for context_word in self.CONTEXT_WORDS:
+                if context_word in context_window:
+                    context_found = True
+                    break
+
+            if context_found:
+                filtered_results.append(result)
+
+        return filtered_results

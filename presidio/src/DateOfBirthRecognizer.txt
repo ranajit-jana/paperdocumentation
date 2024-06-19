@@ -1,0 +1,35 @@
+from presidio_analyzer import PatternRecognizer, Pattern
+
+# Define the custom recognizer for date of birth with context check
+
+class DateOfBirthRecognizer(PatternRecognizer):
+    CONTEXT_WORDS = ["birth", "born", "date of birth", "dob"]
+
+    def __init__(self):
+        patterns = [
+            Pattern(name="MM/DD/YYYY", regex=r'\b(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\d{4}\b', score=0.8),
+            Pattern(name="DD/MM/YYYY", regex=r'\b(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\d{4}\b', score=0.8),
+            Pattern(name="YYYY-MM-DD", regex=r'\b\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\b', score=0.8)
+        ]
+        super().__init__(supported_entity="DATE_OF_BIRTH", patterns=patterns)
+
+    def analyze(self, text, entities, nlp_artifacts=None):
+        results = super().analyze(text, entities, nlp_artifacts)
+        filtered_results = []
+
+        for result in results:
+            context_found = False
+            # Check for context words around the date
+            window_start = max(0, result.start - 15)
+            window_end = min(len(text), result.end + 15)
+            context_window = text[window_start:window_end].lower()
+
+            for context_word in self.CONTEXT_WORDS:
+                if context_word in context_window:
+                    context_found = True
+                    break
+
+            if context_found:
+                filtered_results.append(result)
+
+        return filtered_results

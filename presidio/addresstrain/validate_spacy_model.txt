@@ -1,0 +1,59 @@
+import os
+import json
+import argparse
+from tqdm import tqdm
+import spacy
+from spacy.tokens import DocBin
+from spacy.training import Example
+from spacy.scorer import Scorer
+from spacy.tokens import Doc
+
+# List of country codes
+country_codes = [
+    "en_IN", "en_AU", "en_CA", "en_GB", "en_NZ",
+    "en_US", "es_ES", "es_MX", "dk_DK"
+]
+
+def convert_to_spacy_format(input_file, nlp):
+    with open(input_file, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+
+    data_spacy_format = []
+    for record in data['annotations']:
+        text = record[0]
+        entities = record[1]['entities']
+        entities_spacy_format = [(start, end, label) for start, end, label in entities]
+        data_spacy_format.append((text, {'entities': entities_spacy_format}))
+    return data_spacy_format
+
+def validate_model(model_path, validation_dir):
+    # Load the trained spaCy model
+    nlp = spacy.load(model_path)
+
+    all_examples = []
+
+    # Convert and combine validation data for each country
+    for country_code in country_codes:
+        # Define file path
+        validation_input_file = f"{validation_dir}/address_{country_code}_validator.json"
+        # Convert data to spaCy format
+        validation_data = convert_to_spacy_format(validation_input_file, nlp)
+        print(f"Converted {validation_input_file} to spaCy format")
+        examples = []
+        for text, annots in validation_data:
+            doc = nlp(text)
+            example = Example.from_dict(doc, annots)
+            examples.append(example)
+        all_examples.extend(examples)
+    # Score the model
+    scorer = Scorer()
+    scores = scorer.score(all_examples)
+    print(f"Validation scores: {scores}")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Validate a spaCy NER model with address data.")
+    parser.add_argument("--model-path", type=str, required=True, help="Path to the trained spaCy model")
+    parser.add_argument("--validation-dir", type=str, required=True, help="Directory containing validation JSON files")
+    
+    args = parser.parse_args()
+    validate_model(args.model_path, args.validation_dir)

@@ -1,0 +1,105 @@
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+from presidio_analyzer import AnalyzerEngine, RecognizerRegistry
+from presidio_analyzer.context_aware_enhancers import LemmaContextAwareEnhancer
+import logging
+from DateOfBirthRecognizer import DateOfBirthRecognizer
+from AadhaarRecognizer import AadhaarRecognizer
+from CreditCardSecurityCodeRecognizer import CreditCardSecurityCodeRecognizer
+from CreditCardRecognizer import CreditCardRecognizer
+from BankAccountRecognizer import AccountRecognizer
+from PANNumberRecognizer import PANNumberRecognizer
+from MothersMaidenNameRecognizer import MothersMaidenNameRecognizer
+from AddressRecognizer import AddressRecognizer
+from CreditCardExpiryDateRecognizer import CreditCardExpiryDateRecognizer
+from SpaCyAddressRecognizer import SpaCyAddressRecognizer
+
+
+
+# Initialize logging
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+
+# Initialize FastAPI app
+app = FastAPI()
+
+#entities to be detected by default recognizer
+ORIGINAL_ENTITIES = ["PERSON","EMAIL_ADDRESS","PHONE_NUMBER"]
+# entities to be detected by custom recognizer
+ENTITIES = ["AADHAAR", "DATE_OF_BIRTH", "CREDIT_CARD", "CREDIT_CARD_CVV", 
+            "BANK_ACCOUNT", "PAN_NUMBER", "MOTHERS_MAIDEN_NAME", "ADDRESS",
+            "CREDIT_CARD_EXPIRY_DATE"]
+
+registry = RecognizerRegistry()
+# Initialize the registry and add the custom recognizer
+dob_recognizer = DateOfBirthRecognizer()
+registry.add_recognizer(dob_recognizer)
+aadhaar_recognizer =AadhaarRecognizer()
+registry.add_recognizer(aadhaar_recognizer)
+credit_card_recognizer = CreditCardRecognizer()
+registry.add_recognizer(credit_card_recognizer)
+cvv_recognizer = CreditCardSecurityCodeRecognizer()
+registry.add_recognizer(cvv_recognizer)
+bank_account_recognizer = AccountRecognizer()
+registry.add_recognizer(bank_account_recognizer)
+pan_recognizer = PANNumberRecognizer()
+registry.add_recognizer(pan_recognizer)
+maiden_name_recognizer = MothersMaidenNameRecognizer()
+registry.add_recognizer(maiden_name_recognizer)
+# address_recognizer = AddressRecognizer()
+# registry.add_recognizer(address_recognizer)
+# Path to your trained spaCy model
+model_path = "addresstrain/spacydata/model-best"
+# Initialize the SpaCyAddressRecognizer with the trained model
+address_recognizer = SpaCyAddressRecognizer(model_path)
+registry.add_recognizer(address_recognizer)
+expiry_date_recognizer = CreditCardExpiryDateRecognizer()
+registry.add_recognizer(expiry_date_recognizer)
+# Initialize the LemmaContextAwareEnhancer
+enhancer = LemmaContextAwareEnhancer(context_prefix_count=1, context_suffix_count=1)
+
+# Initialize AnalyzerEngine with context enhancer
+custom_analyzer = AnalyzerEngine(registry=registry, context_aware_enhancer=enhancer)
+original_analyzer = AnalyzerEngine()
+original_analyzer.registry.remove_recognizer("InAadhaarRecognizer")
+
+# Define the Pydantic model for the request
+class TextRequest(BaseModel):
+    text: str
+
+# Function to combine analysis results and remove duplicates
+def combine_results(original_results, analysis_results):
+    combined_results = { (res.entity_type, res.start, res.end): res for res in original_results + analysis_results }
+    return list(combined_results.values())
+
+
+# Define endpoint to analyze text
+@app.post("/analyze/")
+async def analyze_text(text_request: TextRequest):
+    try:
+
+        original_results = original_analyzer.analyze(text=text_request.text, language='en' ,entities=ORIGINAL_ENTITIES)
+        # Analyze the text using Presidio
+        custom_results = custom_analyzer.analyze(text=text_request.text, language='en', entities=ENTITIES)
+        
+        # Combine results from both analyzers
+        combined_results = combine_results(original_results, custom_results)
+
+        # Convert results to a serializable format
+        results = [{
+            "entity_type": result.entity_type,
+            "start": result.start,
+            "end": result.end,
+            "score": result.score
+        } for result in combined_results]
+        
+        return {"results": results}
+        
+    except Exception as e:
+        # Return HTTP 500 Internal Server Error on exception
+        raise HTTPException(status_code=500, detail=str(e))
+
+# Run the FastAPI app
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8001)

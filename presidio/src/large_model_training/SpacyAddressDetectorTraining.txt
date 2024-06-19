@@ -1,0 +1,1063 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "23f739cc",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "from tqdm import tqdm\n",
+    "from spacy.tokens import DocBin\n",
+    "import json\n",
+    "from spacy.training import Example\n",
+    "import spacy\n",
+    "import os\n",
+    "import spacy\n",
+    "from spacy.scorer import Scorer\n",
+    "from spacy.tokens import Doc"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "9f30a076",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Defaulting to user installation because normal site-packages is not writeable\n",
+      "Collecting en-core-web-lg==3.7.1\n",
+      "  Downloading https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.7.1/en_core_web_lg-3.7.1-py3-none-any.whl (587.7 MB)\n",
+      "\u001b[2K     \u001b[38;2;114;156;31m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m587.7/587.7 MB\u001b[0m \u001b[31m1.2 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0mm eta \u001b[36m0:00:01\u001b[0m[36m0:00:02\u001b[0m\n",
+      "\u001b[?25hRequirement already satisfied: spacy<3.8.0,>=3.7.2 in /home/rj/.local/lib/python3.10/site-packages (from en-core-web-lg==3.7.1) (3.7.4)\n",
+      "Requirement already satisfied: spacy-legacy<3.1.0,>=3.0.11 in /home/rj/.local/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (3.0.12)\n",
+      "Requirement already satisfied: spacy-loggers<2.0.0,>=1.0.0 in /home/rj/.local/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (1.0.5)\n",
+      "Requirement already satisfied: murmurhash<1.1.0,>=0.28.0 in /home/rj/.local/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (1.0.10)\n",
+      "Requirement already satisfied: cymem<2.1.0,>=2.0.2 in /home/rj/.local/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (2.0.8)\n",
+      "Requirement already satisfied: preshed<3.1.0,>=3.0.2 in /home/rj/.local/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (3.0.9)\n",
+      "Requirement already satisfied: thinc<8.3.0,>=8.2.2 in /home/rj/.local/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (8.2.3)\n",
+      "Requirement already satisfied: wasabi<1.2.0,>=0.9.1 in /home/rj/.local/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (1.1.2)\n",
+      "Requirement already satisfied: srsly<3.0.0,>=2.4.3 in /home/rj/.local/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (2.4.8)\n",
+      "Requirement already satisfied: catalogue<2.1.0,>=2.0.6 in /home/rj/.local/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (2.0.10)\n",
+      "Requirement already satisfied: weasel<0.4.0,>=0.1.0 in /home/rj/.local/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (0.3.4)\n",
+      "Requirement already satisfied: typer<0.10.0,>=0.3.0 in /home/rj/.local/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (0.9.4)\n",
+      "Requirement already satisfied: smart-open<7.0.0,>=5.2.1 in /home/rj/.local/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (6.4.0)\n",
+      "Requirement already satisfied: tqdm<5.0.0,>=4.38.0 in /home/rj/.local/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (4.66.1)\n",
+      "Requirement already satisfied: requests<3.0.0,>=2.13.0 in /home/rj/.local/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (2.31.0)\n",
+      "Requirement already satisfied: pydantic!=1.8,!=1.8.1,<3.0.0,>=1.7.4 in /home/rj/.local/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (2.6.4)\n",
+      "Requirement already satisfied: jinja2 in /home/rj/.local/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (3.1.2)\n",
+      "Requirement already satisfied: setuptools in /home/rj/.local/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (69.2.0)\n",
+      "Requirement already satisfied: packaging>=20.0 in /home/rj/.local/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (23.1)\n",
+      "Requirement already satisfied: langcodes<4.0.0,>=3.2.0 in /home/rj/.local/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (3.3.0)\n",
+      "Requirement already satisfied: numpy>=1.19.0 in /home/rj/.local/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (1.24.3)\n",
+      "Requirement already satisfied: annotated-types>=0.4.0 in /home/rj/.local/lib/python3.10/site-packages (from pydantic!=1.8,!=1.8.1,<3.0.0,>=1.7.4->spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (0.6.0)\n",
+      "Requirement already satisfied: pydantic-core==2.16.3 in /home/rj/.local/lib/python3.10/site-packages (from pydantic!=1.8,!=1.8.1,<3.0.0,>=1.7.4->spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (2.16.3)\n",
+      "Requirement already satisfied: typing-extensions>=4.6.1 in /home/rj/.local/lib/python3.10/site-packages (from pydantic!=1.8,!=1.8.1,<3.0.0,>=1.7.4->spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (4.9.0)\n",
+      "Requirement already satisfied: charset-normalizer<4,>=2 in /home/rj/.local/lib/python3.10/site-packages (from requests<3.0.0,>=2.13.0->spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (2.1.1)\n",
+      "Requirement already satisfied: idna<4,>=2.5 in /usr/lib/python3/dist-packages (from requests<3.0.0,>=2.13.0->spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (3.3)\n",
+      "Requirement already satisfied: urllib3<3,>=1.21.1 in /usr/lib/python3/dist-packages (from requests<3.0.0,>=2.13.0->spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (1.26.5)\n",
+      "Requirement already satisfied: certifi>=2017.4.17 in /usr/lib/python3/dist-packages (from requests<3.0.0,>=2.13.0->spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (2020.6.20)\n",
+      "Requirement already satisfied: blis<0.8.0,>=0.7.8 in /home/rj/.local/lib/python3.10/site-packages (from thinc<8.3.0,>=8.2.2->spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (0.7.11)\n",
+      "Requirement already satisfied: confection<1.0.0,>=0.0.1 in /home/rj/.local/lib/python3.10/site-packages (from thinc<8.3.0,>=8.2.2->spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (0.1.4)\n",
+      "Requirement already satisfied: click<9.0.0,>=7.1.1 in /usr/lib/python3/dist-packages (from typer<0.10.0,>=0.3.0->spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (8.0.3)\n",
+      "Requirement already satisfied: cloudpathlib<0.17.0,>=0.7.0 in /home/rj/.local/lib/python3.10/site-packages (from weasel<0.4.0,>=0.1.0->spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (0.16.0)\n",
+      "Requirement already satisfied: MarkupSafe>=2.0 in /home/rj/.local/lib/python3.10/site-packages (from jinja2->spacy<3.8.0,>=3.7.2->en-core-web-lg==3.7.1) (2.1.2)\n",
+      "\u001b[38;5;2m✔ Download and installation successful\u001b[0m\n",
+      "You can now load the package via spacy.load('en_core_web_lg')\n"
+     ]
+    }
+   ],
+   "source": [
+    "!python3 -m spacy download en_core_web_lg"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2fa5729f",
+   "metadata": {},
+   "source": [
+    "Manual Step : Creating the Config file for training the model\n",
+    "https://spacy.io/usage/training#config"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "f5983b2f",
+   "metadata": {},
+   "source": [
+    "python3 -m spacy init fill-config base_config.cfg config.cfg\n",
+    "✔ Auto-filled config with all values\n",
+    "✔ Saved config\n",
+    "config.cfg\n",
+    "You can now add "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "abcd2981",
+   "metadata": {},
+   "source": [
+    "python3 -m spacy train config.cfg --output ./output --paths.train ./train.spacy --paths.dev ./train.spacy "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "e4e111b8",
+   "metadata": {},
+   "source": [
+    "Training data can be annotated manually with https://tecoholic.github.io/ner-annotator/"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 41,
+   "id": "44a005d6",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "os.chdir( r'/home/rj/projects/pii_analyzer/src/data/address')\n",
+    "\n",
+    "with open('address_es_MX.json', 'r', encoding='utf-8') as f:\n",
+    "    mx_data = json.load(f)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 42,
+   "id": "5e178e9a",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[['I live at Eje vial Norte Samaniego 033 Interior 001\\nNueva Albania, Q. ROO 74275-9747',\n",
+       "  {'entities': [[10, 84, 'ADDRESS']]}],\n",
+       " ['Meet you at Continuación Viera 874 Edif. 269 , Depto. 468\\nNueva República Checa, TLAX 06296',\n",
+       "  {'entities': [[12, 91, 'ADDRESS']]}],\n",
+       " ['I will be staying at Calzada Valladares 564 Interior 901\\nSan Nadia de la Montaña, GRO 11075-7443',\n",
+       "  {'entities': [[21, 96, 'ADDRESS']]}],\n",
+       " ['Our office is located at Retorno Arriaga 859 Edif. 927 , Depto. 787\\nVieja Portugal, DGO 89987',\n",
+       "  {'entities': [[25, 93, 'ADDRESS']]}],\n",
+       " [\"Let's meet at Andador Belice 519 Edif. 010 , Depto. 452\\nSan Alberto los altos, CHIS 35469-2064 for coffee.\",\n",
+       "  {'entities': [[14, 94, 'ADDRESS']]}]]"
+      ]
+     },
+     "execution_count": 42,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "mx_data['annotations'][:5]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 43,
+   "id": "9f03b9e1",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "train_data_spacy_format = []\n",
+    "\n",
+    "# Process each record in the data\n",
+    "for record in mx_data['annotations']:\n",
+    "    # Extract text and entities\n",
+    "    text = record[0]\n",
+    "    entities = record[1]['entities']\n",
+    "    \n",
+    "    # Convert entity format to spaCy format\n",
+    "    entities_spacy_format = [(start, end, label) for start, end, label in entities]\n",
+    "    \n",
+    "    # Append text and entities in spaCy format to training data list\n",
+    "    train_data_spacy_format.append((text, {'entities': entities_spacy_format}))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 44,
+   "id": "de5085e9",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[('I live at Eje vial Norte Samaniego 033 Interior 001\\nNueva Albania, Q. ROO 74275-9747',\n",
+       "  {'entities': [(10, 84, 'ADDRESS')]}),\n",
+       " ('Meet you at Continuación Viera 874 Edif. 269 , Depto. 468\\nNueva República Checa, TLAX 06296',\n",
+       "  {'entities': [(12, 91, 'ADDRESS')]}),\n",
+       " ('I will be staying at Calzada Valladares 564 Interior 901\\nSan Nadia de la Montaña, GRO 11075-7443',\n",
+       "  {'entities': [(21, 96, 'ADDRESS')]}),\n",
+       " ('Our office is located at Retorno Arriaga 859 Edif. 927 , Depto. 787\\nVieja Portugal, DGO 89987',\n",
+       "  {'entities': [(25, 93, 'ADDRESS')]}),\n",
+       " (\"Let's meet at Andador Belice 519 Edif. 010 , Depto. 452\\nSan Alberto los altos, CHIS 35469-2064 for coffee.\",\n",
+       "  {'entities': [(14, 94, 'ADDRESS')]})]"
+      ]
+     },
+     "execution_count": 44,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "train_data_spacy_format[:5]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 45,
+   "id": "d32bb06d",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 51/51 [00:00<00:00, 4445.24it/s]\n"
+     ]
+    }
+   ],
+   "source": [
+    "db = DocBin() # create a DocBin object\n",
+    "\n",
+    "for text, annot in tqdm(train_data_spacy_format): # data in previous format\n",
+    "    doc = nlp.make_doc(text) # create doc object from text\n",
+    "    ents = []\n",
+    "    for start, end, label in annot[\"entities\"]: # add character indexes\n",
+    "        span = doc.char_span(start, end, label=label, alignment_mode=\"contract\")\n",
+    "        if span is None:\n",
+    "            print(\"Skipping entity\")\n",
+    "        else:\n",
+    "            ents.append(span)\n",
+    "    doc.ents = ents # label the text with the ents\n",
+    "    db.add(doc)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 49,
+   "id": "935c5273",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "os.chdir( r'/home/rj/projects/pii_analyzer/src/large_model_training/address/MX_spacydata')\n",
+    "db.to_disk(\"./train.spacy\") # save the docbin object\n",
+    "os.chdir( r'/home/rj/projects/pii_analyzer/src/large_model_training/address/')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 50,
+   "id": "640222b0",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\u001b[38;5;4mℹ Saving to output directory: output\u001b[0m\n",
+      "\u001b[38;5;4mℹ Using CPU\u001b[0m\n",
+      "\u001b[1m\n",
+      "=========================== Initializing pipeline ===========================\u001b[0m\n",
+      "/home/rj/.local/lib/python3.10/site-packages/transformers/utils/generic.py:441: UserWarning: torch.utils._pytree._register_pytree_node is deprecated. Please use torch.utils._pytree.register_pytree_node instead.\n",
+      "  _torch_pytree._register_pytree_node(\n",
+      "/home/rj/.local/lib/python3.10/site-packages/transformers/utils/generic.py:309: UserWarning: torch.utils._pytree._register_pytree_node is deprecated. Please use torch.utils._pytree.register_pytree_node instead.\n",
+      "  _torch_pytree._register_pytree_node(\n",
+      "\u001b[38;5;2m✔ Initialized pipeline\u001b[0m\n",
+      "\u001b[1m\n",
+      "============================= Training pipeline =============================\u001b[0m\n",
+      "\u001b[38;5;4mℹ Pipeline: ['tok2vec', 'ner']\u001b[0m\n",
+      "\u001b[38;5;4mℹ Initial learn rate: 0.001\u001b[0m\n",
+      "E    #       LOSS TOK2VEC  LOSS NER  ENTS_F  ENTS_P  ENTS_R  SCORE \n",
+      "---  ------  ------------  --------  ------  ------  ------  ------\n",
+      "  0       0          0.00     38.68    0.00    0.00    0.00    0.00\n",
+      " 16     200        458.05   2205.27  100.00  100.00  100.00    1.00\n",
+      " 36     400          0.01      0.08  100.00  100.00  100.00    1.00\n",
+      " 62     600          0.00      0.00  100.00  100.00  100.00    1.00\n",
+      " 93     800          0.00      0.00  100.00  100.00  100.00    1.00\n",
+      "131    1000          0.00      0.00  100.00  100.00  100.00    1.00\n",
+      "178    1200          0.00      0.00  100.00  100.00  100.00    1.00\n",
+      "234    1400          0.00      0.00  100.00  100.00  100.00    1.00\n",
+      "301    1600          0.00      0.00  100.00  100.00  100.00    1.00\n",
+      "386    1800          0.00      0.00  100.00  100.00  100.00    1.00\n",
+      "\u001b[38;5;2m✔ Saved pipeline to output directory\u001b[0m\n",
+      "output/model-last\n"
+     ]
+    }
+   ],
+   "source": [
+    "!python3 -m spacy train config.cfg --output ./output --paths.train ./MX_spacydata/train.spacy --paths.dev ./MX_spacydata/train.spacy"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 51,
+   "id": "353ee2bd",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "languages = [\n",
+    "    \"en_IN\", \"en_AU\", \"en_CA\", \"en_GB\", \"en_NZ\", \"en_US\", \n",
+    "    \"es_ES\", \"de_DE\", \"dk_DK\", \"el_GR\"\n",
+    "]\n",
+    "\n",
+    "base_path = '/home/rj/projects/pii_analyzer/src'\n",
+    "\n",
+    "\n",
+    "# Load the last trained model\n",
+    "os.chdir( r'/home/rj/projects/pii_analyzer/src/large_model_training/address/output')\n",
+    "in_nlp = spacy.load(r\"model-last\") #load the best model"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 52,
+   "id": "0a71b269",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "os.chdir( r'/home/rj/projects/pii_analyzer/src/data/address')\n",
+    "\n",
+    "with open('addressoutput_en_IN.json', 'r', encoding='utf-8') as f:\n",
+    "    in_data = json.load(f)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 53,
+   "id": "ad7fd19f",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[['I live at 73/502, Chaudhry Ganj\\nKarimnagar 991899',\n",
+       "  {'entities': [[10, 49, 'ADDRESS']]}],\n",
+       " ['Meet you at H.No. 38\\nDalal Chowk, Medininagar 547638',\n",
+       "  {'entities': [[12, 52, 'ADDRESS']]}],\n",
+       " ['I will be staying at 844\\nGrewal, Khora  466131',\n",
+       "  {'entities': [[21, 46, 'ADDRESS']]}],\n",
+       " ['Our office is located at 82, Sani Path, Bhiwandi 516763',\n",
+       "  {'entities': [[25, 55, 'ADDRESS']]}],\n",
+       " [\"Let's meet at 61/412, Bali\\nNavi Mumbai 919711 for coffee.\",\n",
+       "  {'entities': [[14, 45, 'ADDRESS']]}]]"
+      ]
+     },
+     "execution_count": 53,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "in_data['annotations'][:5]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 54,
+   "id": "5ab8de88",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "train_data_spacy_format = []\n",
+    "\n",
+    "# Process each record in the data\n",
+    "for record in in_data['annotations']:\n",
+    "    # Extract text and entities\n",
+    "    text = record[0]\n",
+    "    entities = record[1]['entities']\n",
+    "    \n",
+    "    # Convert entity format to spaCy format\n",
+    "    entities_spacy_format = [(start, end, label) for start, end, label in entities]\n",
+    "    \n",
+    "    # Append text and entities in spaCy format to training data list\n",
+    "    train_data_spacy_format.append((text, {'entities': entities_spacy_format}))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 55,
+   "id": "7a42aad9",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[('I live at 73/502, Chaudhry Ganj\\nKarimnagar 991899',\n",
+       "  {'entities': [(10, 49, 'ADDRESS')]}),\n",
+       " ('Meet you at H.No. 38\\nDalal Chowk, Medininagar 547638',\n",
+       "  {'entities': [(12, 52, 'ADDRESS')]}),\n",
+       " ('I will be staying at 844\\nGrewal, Khora  466131',\n",
+       "  {'entities': [(21, 46, 'ADDRESS')]}),\n",
+       " ('Our office is located at 82, Sani Path, Bhiwandi 516763',\n",
+       "  {'entities': [(25, 55, 'ADDRESS')]}),\n",
+       " (\"Let's meet at 61/412, Bali\\nNavi Mumbai 919711 for coffee.\",\n",
+       "  {'entities': [(14, 45, 'ADDRESS')]})]"
+      ]
+     },
+     "execution_count": 55,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "train_data_spacy_format[:5]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 56,
+   "id": "71e7d2fa",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 51/51 [00:00<00:00, 2103.26it/s]\n"
+     ]
+    }
+   ],
+   "source": [
+    "db = DocBin() # create a DocBin object\n",
+    "\n",
+    "for text, annot in tqdm(train_data_spacy_format): # data in previous format\n",
+    "    doc = in_nlp.make_doc(text) # create doc object from text\n",
+    "    ents = []\n",
+    "    for start, end, label in annot[\"entities\"]: # add character indexes\n",
+    "        span = doc.char_span(start, end, label=label, alignment_mode=\"contract\")\n",
+    "        if span is None:\n",
+    "            print(\"Skipping entity\")\n",
+    "        else:\n",
+    "            ents.append(span)\n",
+    "    doc.ents = ents # label the text with the ents\n",
+    "    db.add(doc)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 57,
+   "id": "b4769a9b",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "os.chdir( r'/home/rj/projects/pii_analyzer/src/large_model_training/address/IN_spacydata')\n",
+    "db.to_disk(\"./train.spacy\") # save the docbin object\n",
+    "os.chdir( r'/home/rj/projects/pii_analyzer/src/large_model_training/address/')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 58,
+   "id": "d873d715",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\u001b[38;5;4mℹ Saving to output directory: output\u001b[0m\n",
+      "\u001b[38;5;4mℹ Using CPU\u001b[0m\n",
+      "\u001b[1m\n",
+      "=========================== Initializing pipeline ===========================\u001b[0m\n",
+      "/home/rj/.local/lib/python3.10/site-packages/transformers/utils/generic.py:441: UserWarning: torch.utils._pytree._register_pytree_node is deprecated. Please use torch.utils._pytree.register_pytree_node instead.\n",
+      "  _torch_pytree._register_pytree_node(\n",
+      "/home/rj/.local/lib/python3.10/site-packages/transformers/utils/generic.py:309: UserWarning: torch.utils._pytree._register_pytree_node is deprecated. Please use torch.utils._pytree.register_pytree_node instead.\n",
+      "  _torch_pytree._register_pytree_node(\n",
+      "\u001b[38;5;2m✔ Initialized pipeline\u001b[0m\n",
+      "\u001b[1m\n",
+      "============================= Training pipeline =============================\u001b[0m\n",
+      "\u001b[38;5;4mℹ Pipeline: ['tok2vec', 'ner']\u001b[0m\n",
+      "\u001b[38;5;4mℹ Initial learn rate: 0.001\u001b[0m\n",
+      "E    #       LOSS TOK2VEC  LOSS NER  ENTS_F  ENTS_P  ENTS_R  SCORE \n",
+      "---  ------  ------------  --------  ------  ------  ------  ------\n",
+      "  0       0          0.00     41.14    0.00    0.00    0.00    0.00\n",
+      " 27     200         97.56   1958.07  100.00  100.00  100.00    1.00\n",
+      " 60     400          0.00      0.00  100.00  100.00  100.00    1.00\n",
+      "101     600          0.00      0.00  100.00  100.00  100.00    1.00\n",
+      "151     800          0.00      0.00  100.00  100.00  100.00    1.00\n",
+      "213    1000          0.00      0.00  100.00  100.00  100.00    1.00\n",
+      "280    1200          0.00      0.00  100.00  100.00  100.00    1.00\n",
+      "379    1400          0.00      0.00  100.00  100.00  100.00    1.00\n",
+      "479    1600          0.00      0.00  100.00  100.00  100.00    1.00\n",
+      "579    1800          0.00      0.00  100.00  100.00  100.00    1.00\n",
+      "\u001b[38;5;2m✔ Saved pipeline to output directory\u001b[0m\n",
+      "output/model-last\n"
+     ]
+    }
+   ],
+   "source": [
+    "!python3 -m spacy train config.cfg --output ./output --paths.train ./IN_spacydata/train.spacy --paths.dev ./IN_spacydata/train.spacy"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 59,
+   "id": "77320d59",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[['I live at Hilmar-Eigenwillig-Gasse 7\\n64670 Staßfurt',\n",
+       "  {'entities': [[10, 51, 'ADDRESS']]}],\n",
+       " ['Meet you at Ayten-Hofmann-Straße 32\\n87880 Hansestadttralsund',\n",
+       "  {'entities': [[12, 60, 'ADDRESS']]}],\n",
+       " ['I will be staying at Rognergasse 57\\n31323 Husum',\n",
+       "  {'entities': [[21, 47, 'ADDRESS']]}],\n",
+       " ['Our office is located at Hans Dieter-Wilms-Allee 4/0\\n76949 Badibling',\n",
+       "  {'entities': [[25, 68, 'ADDRESS']]}],\n",
+       " [\"Let's meet at Haeringstraße 540\\n21243 Osterode am Harz for coffee.\",\n",
+       "  {'entities': [[14, 54, 'ADDRESS']]}]]"
+      ]
+     },
+     "execution_count": 59,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Load the last trained model\n",
+    "os.chdir( r'/home/rj/projects/pii_analyzer/src/large_model_training/address/output')\n",
+    "de_nlp = spacy.load(r\"model-last\") #load the best model\n",
+    "os.chdir( r'/home/rj/projects/pii_analyzer/src/data/address')\n",
+    "\n",
+    "with open('addressoutput_de_DE.json', 'r', encoding='utf-8') as f:\n",
+    "    de_data = json.load(f)\n",
+    "    \n",
+    "de_data['annotations'][:5]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 61,
+   "id": "09218d99",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 51/51 [00:00<00:00, 5772.76it/s]\n"
+     ]
+    }
+   ],
+   "source": [
+    "db = DocBin() # create a DocBin object\n",
+    "\n",
+    "for text, annot in tqdm(train_data_spacy_format): # data in previous format\n",
+    "    doc = de_nlp.make_doc(text) # create doc object from text\n",
+    "    ents = []\n",
+    "    for start, end, label in annot[\"entities\"]: # add character indexes\n",
+    "        span = doc.char_span(start, end, label=label, alignment_mode=\"contract\")\n",
+    "        if span is None:\n",
+    "            print(\"Skipping entity\")\n",
+    "        else:\n",
+    "            ents.append(span)\n",
+    "    doc.ents = ents # label the text with the ents\n",
+    "    db.add(doc)\n",
+    "train_data_spacy_format = []\n",
+    "\n",
+    "# Process each record in the data\n",
+    "for record in de_data['annotations']:\n",
+    "    # Extract text and entities\n",
+    "    text = record[0]\n",
+    "    entities = record[1]['entities']\n",
+    "    \n",
+    "    # Convert entity format to spaCy format\n",
+    "    entities_spacy_format = [(start, end, label) for start, end, label in entities]\n",
+    "    \n",
+    "    # Append text and entities in spaCy format to training data list\n",
+    "    train_data_spacy_format.append((text, {'entities': entities_spacy_format}))\n",
+    "os.chdir( r'/home/rj/projects/pii_analyzer/src/large_model_training/address/DE_spacydata')\n",
+    "db.to_disk(\"./train.spacy\") # save the docbin object\n",
+    "os.chdir( r'/home/rj/projects/pii_analyzer/src/large_model_training/address/')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 63,
+   "id": "44363b72",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\u001b[38;5;4mℹ Saving to output directory: output\u001b[0m\n",
+      "\u001b[38;5;4mℹ Using CPU\u001b[0m\n",
+      "\u001b[1m\n",
+      "=========================== Initializing pipeline ===========================\u001b[0m\n",
+      "/home/rj/.local/lib/python3.10/site-packages/transformers/utils/generic.py:441: UserWarning: torch.utils._pytree._register_pytree_node is deprecated. Please use torch.utils._pytree.register_pytree_node instead.\n",
+      "  _torch_pytree._register_pytree_node(\n",
+      "/home/rj/.local/lib/python3.10/site-packages/transformers/utils/generic.py:309: UserWarning: torch.utils._pytree._register_pytree_node is deprecated. Please use torch.utils._pytree.register_pytree_node instead.\n",
+      "  _torch_pytree._register_pytree_node(\n",
+      "\u001b[38;5;2m✔ Initialized pipeline\u001b[0m\n",
+      "\u001b[1m\n",
+      "============================= Training pipeline =============================\u001b[0m\n",
+      "\u001b[38;5;4mℹ Pipeline: ['tok2vec', 'ner']\u001b[0m\n",
+      "\u001b[38;5;4mℹ Initial learn rate: 0.001\u001b[0m\n",
+      "E    #       LOSS TOK2VEC  LOSS NER  ENTS_F  ENTS_P  ENTS_R  SCORE \n",
+      "---  ------  ------------  --------  ------  ------  ------  ------\n",
+      "  0       0          0.00     41.14    0.00    0.00    0.00    0.00\n",
+      " 27     200         97.56   1958.07  100.00  100.00  100.00    1.00\n",
+      " 60     400          0.00      0.00  100.00  100.00  100.00    1.00\n",
+      "101     600          0.00      0.00  100.00  100.00  100.00    1.00\n",
+      "151     800          0.00      0.00  100.00  100.00  100.00    1.00\n",
+      "213    1000          0.00      0.00  100.00  100.00  100.00    1.00\n",
+      "280    1200          0.00      0.00  100.00  100.00  100.00    1.00\n",
+      "379    1400          0.00      0.00  100.00  100.00  100.00    1.00\n",
+      "479    1600          0.00      0.00  100.00  100.00  100.00    1.00\n",
+      "579    1800          0.00      0.00  100.00  100.00  100.00    1.00\n",
+      "\u001b[38;5;2m✔ Saved pipeline to output directory\u001b[0m\n",
+      "output/model-last\n"
+     ]
+    }
+   ],
+   "source": [
+    "!python3 -m spacy train config.cfg --output ./output --paths.train ./DE_spacydata/train.spacy --paths.dev ./IN_spacydata/train.spacy"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "dab24795",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Load the last trained model\n",
+    "os.chdir( r'/home/rj/projects/pii_analyzer/src/large_model_training/address/output')\n",
+    "de_nlp = spacy.load(r\"model-last\") #load the best model\n",
+    "os.chdir( r'/home/rj/projects/pii_analyzer/src/data/address')\n",
+    "\n",
+    "with open('addressoutput_de_DE.json', 'r', encoding='utf-8') as f:\n",
+    "    de_data = json.load(f)\n",
+    "    \n",
+    "de_data['annotations'][:5]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "d75d7ba2",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "db = DocBin() # create a DocBin object\n",
+    "\n",
+    "for text, annot in tqdm(train_data_spacy_format): # data in previous format\n",
+    "    doc = de_nlp.make_doc(text) # create doc object from text\n",
+    "    ents = []\n",
+    "    for start, end, label in annot[\"entities\"]: # add character indexes\n",
+    "        span = doc.char_span(start, end, label=label, alignment_mode=\"contract\")\n",
+    "        if span is None:\n",
+    "            print(\"Skipping entity\")\n",
+    "        else:\n",
+    "            ents.append(span)\n",
+    "    doc.ents = ents # label the text with the ents\n",
+    "    db.add(doc)\n",
+    "train_data_spacy_format = []\n",
+    "\n",
+    "# Process each record in the data\n",
+    "for record in de_data['annotations']:\n",
+    "    # Extract text and entities\n",
+    "    text = record[0]\n",
+    "    entities = record[1]['entities']\n",
+    "    \n",
+    "    # Convert entity format to spaCy format\n",
+    "    entities_spacy_format = [(start, end, label) for start, end, label in entities]\n",
+    "    \n",
+    "    # Append text and entities in spaCy format to training data list\n",
+    "    train_data_spacy_format.append((text, {'entities': entities_spacy_format}))\n",
+    "os.chdir( r'/home/rj/projects/pii_analyzer/src/large_model_training/address/DE_spacydata')\n",
+    "db.to_disk(\"./train.spacy\") # save the docbin object\n",
+    "os.chdir( r'/home/rj/projects/pii_analyzer/src/large_model_training/address/')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "7507ead0",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "cdaa5dc4",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "0dc2a269",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "0450634a",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "341509de",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "25f54422",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "b71af5e5",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "7c2a7ea7",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ce7c57c6",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "41bca958",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c41a53e8",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 65,
+   "id": "00e51d4a",
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<span class=\"tex2jax_ignore\"><div class=\"entities\" style=\"line-height: 2.5; direction: ltr\">Bill is holding a meeting. We can all meet at \n",
+       "<mark class=\"entity\" style=\"background: #ddd; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;\">\n",
+       "    13,1 Mg Road, Bengalore-560001\n",
+       "    <span style=\"font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem\">ADDRESS</span>\n",
+       "</mark>\n",
+       "</div></span>"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "os.chdir( r'/home/rj/projects/pii_analyzer/src/large_model_training/address/output')\n",
+    "nlp1 = spacy.load(r\"model-best\") #load the best model\n",
+    "\n",
+    "checkingdoc = nlp1(\"Bill is holding a meeting. We can all meet at 13,1 Mg Road, Bengalore-560001\") # input sample text\n",
+    "\n",
+    "\n",
+    "spacy.displacy.render(checkingdoc, style=\"ent\", jupyter=True) # display in Jupyter\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "id": "ab676952",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Defaulting to user installation because normal site-packages is not writeable\n",
+      "Requirement already satisfied: spacy-transformers in /home/rj/.local/lib/python3.10/site-packages (1.3.5)\n",
+      "Requirement already satisfied: spacy<4.1.0,>=3.5.0 in /home/rj/.local/lib/python3.10/site-packages (from spacy-transformers) (3.7.4)\n",
+      "Requirement already satisfied: transformers<4.37.0,>=3.4.0 in /home/rj/.local/lib/python3.10/site-packages (from spacy-transformers) (4.36.2)\n",
+      "Requirement already satisfied: torch>=1.8.0 in /home/rj/.local/lib/python3.10/site-packages (from spacy-transformers) (2.2.0)\n",
+      "Requirement already satisfied: srsly<3.0.0,>=2.4.0 in /home/rj/.local/lib/python3.10/site-packages (from spacy-transformers) (2.4.8)\n",
+      "Requirement already satisfied: spacy-alignments<1.0.0,>=0.7.2 in /home/rj/.local/lib/python3.10/site-packages (from spacy-transformers) (0.9.1)\n",
+      "Requirement already satisfied: numpy>=1.19.0 in /home/rj/.local/lib/python3.10/site-packages (from spacy-transformers) (1.24.3)\n",
+      "Requirement already satisfied: spacy-legacy<3.1.0,>=3.0.11 in /home/rj/.local/lib/python3.10/site-packages (from spacy<4.1.0,>=3.5.0->spacy-transformers) (3.0.12)\n",
+      "Requirement already satisfied: spacy-loggers<2.0.0,>=1.0.0 in /home/rj/.local/lib/python3.10/site-packages (from spacy<4.1.0,>=3.5.0->spacy-transformers) (1.0.5)\n",
+      "Requirement already satisfied: murmurhash<1.1.0,>=0.28.0 in /home/rj/.local/lib/python3.10/site-packages (from spacy<4.1.0,>=3.5.0->spacy-transformers) (1.0.10)\n",
+      "Requirement already satisfied: cymem<2.1.0,>=2.0.2 in /home/rj/.local/lib/python3.10/site-packages (from spacy<4.1.0,>=3.5.0->spacy-transformers) (2.0.8)\n",
+      "Requirement already satisfied: preshed<3.1.0,>=3.0.2 in /home/rj/.local/lib/python3.10/site-packages (from spacy<4.1.0,>=3.5.0->spacy-transformers) (3.0.9)\n",
+      "Requirement already satisfied: thinc<8.3.0,>=8.2.2 in /home/rj/.local/lib/python3.10/site-packages (from spacy<4.1.0,>=3.5.0->spacy-transformers) (8.2.3)\n",
+      "Requirement already satisfied: wasabi<1.2.0,>=0.9.1 in /home/rj/.local/lib/python3.10/site-packages (from spacy<4.1.0,>=3.5.0->spacy-transformers) (1.1.2)\n",
+      "Requirement already satisfied: catalogue<2.1.0,>=2.0.6 in /home/rj/.local/lib/python3.10/site-packages (from spacy<4.1.0,>=3.5.0->spacy-transformers) (2.0.10)\n",
+      "Requirement already satisfied: weasel<0.4.0,>=0.1.0 in /home/rj/.local/lib/python3.10/site-packages (from spacy<4.1.0,>=3.5.0->spacy-transformers) (0.3.4)\n",
+      "Requirement already satisfied: typer<0.10.0,>=0.3.0 in /home/rj/.local/lib/python3.10/site-packages (from spacy<4.1.0,>=3.5.0->spacy-transformers) (0.9.4)\n",
+      "Requirement already satisfied: smart-open<7.0.0,>=5.2.1 in /home/rj/.local/lib/python3.10/site-packages (from spacy<4.1.0,>=3.5.0->spacy-transformers) (6.4.0)\n",
+      "Requirement already satisfied: tqdm<5.0.0,>=4.38.0 in /home/rj/.local/lib/python3.10/site-packages (from spacy<4.1.0,>=3.5.0->spacy-transformers) (4.66.1)\n",
+      "Requirement already satisfied: requests<3.0.0,>=2.13.0 in /home/rj/.local/lib/python3.10/site-packages (from spacy<4.1.0,>=3.5.0->spacy-transformers) (2.31.0)\n",
+      "Requirement already satisfied: pydantic!=1.8,!=1.8.1,<3.0.0,>=1.7.4 in /home/rj/.local/lib/python3.10/site-packages (from spacy<4.1.0,>=3.5.0->spacy-transformers) (2.6.4)\n",
+      "Requirement already satisfied: jinja2 in /home/rj/.local/lib/python3.10/site-packages (from spacy<4.1.0,>=3.5.0->spacy-transformers) (3.1.2)\n",
+      "Requirement already satisfied: setuptools in /home/rj/.local/lib/python3.10/site-packages (from spacy<4.1.0,>=3.5.0->spacy-transformers) (69.2.0)\n",
+      "Requirement already satisfied: packaging>=20.0 in /home/rj/.local/lib/python3.10/site-packages (from spacy<4.1.0,>=3.5.0->spacy-transformers) (23.1)\n",
+      "Requirement already satisfied: langcodes<4.0.0,>=3.2.0 in /home/rj/.local/lib/python3.10/site-packages (from spacy<4.1.0,>=3.5.0->spacy-transformers) (3.3.0)\n",
+      "Requirement already satisfied: filelock in /home/rj/.local/lib/python3.10/site-packages (from torch>=1.8.0->spacy-transformers) (3.13.3)\n",
+      "Requirement already satisfied: typing-extensions>=4.8.0 in /home/rj/.local/lib/python3.10/site-packages (from torch>=1.8.0->spacy-transformers) (4.9.0)\n",
+      "Requirement already satisfied: sympy in /home/rj/.local/lib/python3.10/site-packages (from torch>=1.8.0->spacy-transformers) (1.12)\n",
+      "Requirement already satisfied: networkx in /home/rj/.local/lib/python3.10/site-packages (from torch>=1.8.0->spacy-transformers) (3.2.1)\n",
+      "Requirement already satisfied: fsspec in /home/rj/.local/lib/python3.10/site-packages (from torch>=1.8.0->spacy-transformers) (2023.10.0)\n",
+      "Requirement already satisfied: nvidia-cuda-nvrtc-cu12==12.1.105 in /home/rj/.local/lib/python3.10/site-packages (from torch>=1.8.0->spacy-transformers) (12.1.105)\n",
+      "Requirement already satisfied: nvidia-cuda-runtime-cu12==12.1.105 in /home/rj/.local/lib/python3.10/site-packages (from torch>=1.8.0->spacy-transformers) (12.1.105)\n",
+      "Requirement already satisfied: nvidia-cuda-cupti-cu12==12.1.105 in /home/rj/.local/lib/python3.10/site-packages (from torch>=1.8.0->spacy-transformers) (12.1.105)\n",
+      "Requirement already satisfied: nvidia-cudnn-cu12==8.9.2.26 in /home/rj/.local/lib/python3.10/site-packages (from torch>=1.8.0->spacy-transformers) (8.9.2.26)\n",
+      "Requirement already satisfied: nvidia-cublas-cu12==12.1.3.1 in /home/rj/.local/lib/python3.10/site-packages (from torch>=1.8.0->spacy-transformers) (12.1.3.1)\n",
+      "Requirement already satisfied: nvidia-cufft-cu12==11.0.2.54 in /home/rj/.local/lib/python3.10/site-packages (from torch>=1.8.0->spacy-transformers) (11.0.2.54)\n",
+      "Requirement already satisfied: nvidia-curand-cu12==10.3.2.106 in /home/rj/.local/lib/python3.10/site-packages (from torch>=1.8.0->spacy-transformers) (10.3.2.106)\n",
+      "Requirement already satisfied: nvidia-cusolver-cu12==11.4.5.107 in /home/rj/.local/lib/python3.10/site-packages (from torch>=1.8.0->spacy-transformers) (11.4.5.107)\n",
+      "Requirement already satisfied: nvidia-cusparse-cu12==12.1.0.106 in /home/rj/.local/lib/python3.10/site-packages (from torch>=1.8.0->spacy-transformers) (12.1.0.106)\n",
+      "Requirement already satisfied: nvidia-nccl-cu12==2.19.3 in /home/rj/.local/lib/python3.10/site-packages (from torch>=1.8.0->spacy-transformers) (2.19.3)\n",
+      "Requirement already satisfied: nvidia-nvtx-cu12==12.1.105 in /home/rj/.local/lib/python3.10/site-packages (from torch>=1.8.0->spacy-transformers) (12.1.105)\n",
+      "Requirement already satisfied: triton==2.2.0 in /home/rj/.local/lib/python3.10/site-packages (from torch>=1.8.0->spacy-transformers) (2.2.0)\n",
+      "Requirement already satisfied: nvidia-nvjitlink-cu12 in /home/rj/.local/lib/python3.10/site-packages (from nvidia-cusolver-cu12==11.4.5.107->torch>=1.8.0->spacy-transformers) (12.3.101)\n",
+      "Requirement already satisfied: huggingface-hub<1.0,>=0.19.3 in /home/rj/.local/lib/python3.10/site-packages (from transformers<4.37.0,>=3.4.0->spacy-transformers) (0.20.3)\n",
+      "Requirement already satisfied: pyyaml>=5.1 in /usr/lib/python3/dist-packages (from transformers<4.37.0,>=3.4.0->spacy-transformers) (5.4.1)\n",
+      "Requirement already satisfied: regex!=2019.12.17 in /home/rj/.local/lib/python3.10/site-packages (from transformers<4.37.0,>=3.4.0->spacy-transformers) (2023.12.25)\n",
+      "Requirement already satisfied: tokenizers<0.19,>=0.14 in /home/rj/.local/lib/python3.10/site-packages (from transformers<4.37.0,>=3.4.0->spacy-transformers) (0.15.1)\n",
+      "Requirement already satisfied: safetensors>=0.3.1 in /home/rj/.local/lib/python3.10/site-packages (from transformers<4.37.0,>=3.4.0->spacy-transformers) (0.4.2)\n",
+      "Requirement already satisfied: annotated-types>=0.4.0 in /home/rj/.local/lib/python3.10/site-packages (from pydantic!=1.8,!=1.8.1,<3.0.0,>=1.7.4->spacy<4.1.0,>=3.5.0->spacy-transformers) (0.6.0)\n",
+      "Requirement already satisfied: pydantic-core==2.16.3 in /home/rj/.local/lib/python3.10/site-packages (from pydantic!=1.8,!=1.8.1,<3.0.0,>=1.7.4->spacy<4.1.0,>=3.5.0->spacy-transformers) (2.16.3)\n",
+      "Requirement already satisfied: charset-normalizer<4,>=2 in /home/rj/.local/lib/python3.10/site-packages (from requests<3.0.0,>=2.13.0->spacy<4.1.0,>=3.5.0->spacy-transformers) (2.1.1)\n",
+      "Requirement already satisfied: idna<4,>=2.5 in /usr/lib/python3/dist-packages (from requests<3.0.0,>=2.13.0->spacy<4.1.0,>=3.5.0->spacy-transformers) (3.3)\n",
+      "Requirement already satisfied: urllib3<3,>=1.21.1 in /usr/lib/python3/dist-packages (from requests<3.0.0,>=2.13.0->spacy<4.1.0,>=3.5.0->spacy-transformers) (1.26.5)\n",
+      "Requirement already satisfied: certifi>=2017.4.17 in /usr/lib/python3/dist-packages (from requests<3.0.0,>=2.13.0->spacy<4.1.0,>=3.5.0->spacy-transformers) (2020.6.20)\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: blis<0.8.0,>=0.7.8 in /home/rj/.local/lib/python3.10/site-packages (from thinc<8.3.0,>=8.2.2->spacy<4.1.0,>=3.5.0->spacy-transformers) (0.7.11)\n",
+      "Requirement already satisfied: confection<1.0.0,>=0.0.1 in /home/rj/.local/lib/python3.10/site-packages (from thinc<8.3.0,>=8.2.2->spacy<4.1.0,>=3.5.0->spacy-transformers) (0.1.4)\n",
+      "Requirement already satisfied: click<9.0.0,>=7.1.1 in /usr/lib/python3/dist-packages (from typer<0.10.0,>=0.3.0->spacy<4.1.0,>=3.5.0->spacy-transformers) (8.0.3)\n",
+      "Requirement already satisfied: cloudpathlib<0.17.0,>=0.7.0 in /home/rj/.local/lib/python3.10/site-packages (from weasel<0.4.0,>=0.1.0->spacy<4.1.0,>=3.5.0->spacy-transformers) (0.16.0)\n",
+      "Requirement already satisfied: MarkupSafe>=2.0 in /home/rj/.local/lib/python3.10/site-packages (from jinja2->spacy<4.1.0,>=3.5.0->spacy-transformers) (2.1.2)\n",
+      "Requirement already satisfied: mpmath>=0.19 in /home/rj/.local/lib/python3.10/site-packages (from sympy->torch>=1.8.0->spacy-transformers) (1.3.0)\n",
+      "Note: you may need to restart the kernel to use updated packages.\n"
+     ]
+    }
+   ],
+   "source": [
+    "pip install spacy-transformers"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 66,
+   "id": "7e27ecb0",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "\n",
+    "          \n",
+    "os.chdir( r'/home/rj/projects/pii_analyzer/src/data')\n",
+    "\n",
+    "with open('testdata.json', 'r', encoding='utf-8') as tf:\n",
+    "    testdata = json.load(tf)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 67,
+   "id": "a1abde54",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "test_data_spacy_format = []\n",
+    "\n",
+    "# Process each record in the data\n",
+    "for testrecord in testdata['annotations']:\n",
+    "    # Extract text and entities\n",
+    "    testtext = testrecord[0]\n",
+    "    testentities = testrecord[1]['entities']\n",
+    "    \n",
+    "    # Convert entity format to spaCy format\n",
+    "    testentities_spacy_format = [(start, end, label) for start, end, label in testentities]\n",
+    "    \n",
+    "    # Append text and entities in spaCy format to training data list\n",
+    "    test_data_spacy_format.append((testtext, {'entities': testentities_spacy_format}))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 68,
+   "id": "e8a3f42f",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[('It is a great way of working. The thought was first given by Keya Ghose. He used to stay as 54\\nBajwa Marg\\nKakinada-102391.',\n",
+       "  {'entities': [(61, 71, 'PERSON'), (92, 121, 'ADDRESS')]}),\n",
+       " ('I have never seen Vritika Choudhry go to H.No. 182\\nAnne Path\\nNew Delhi 683677, but he called 04654121140 and emailed taradevi@example.com multiple times.',\n",
+       "  {'entities': [(18, 34, 'PERSON'),\n",
+       "    (41, 77, 'ADDRESS'),\n",
+       "    (93, 104, 'PHONE_NUMBER'),\n",
+       "    (117, 137, 'EMAIL_ADDRESS')]}),\n",
+       " ('Goverment official has named Taimur Date as caretaker, He is given a office at 69/504\\nDe Road\\nHindupur-598227. His contact details are +910148414939 riaandalal@example.org',\n",
+       "  {'entities': [(29, 40, 'PERSON'),\n",
+       "    (79, 109, 'ADDRESS'),\n",
+       "    (135, 148, 'PHONE_NUMBER'),\n",
+       "    (149, 171, 'EMAIL_ADDRESS')]}),\n",
+       " ('Darshit Tank used his id 243386051100 for identifing himself',\n",
+       "  {'entities': [(0, 12, 'PERSON'), (25, 37, 'IN_AADHAAR')]}),\n",
+       " ('Temples now will need id for letting people enter. Shlok Soni was carring his id with 318886582307. but it seems that the id is not correct.',\n",
+       "  {'entities': [(51, 61, 'PERSON'), (86, 98, 'IN_AADHAAR')]})]"
+      ]
+     },
+     "execution_count": 68,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "test_data_spacy_format[:5]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 69,
+   "id": "6173c840",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'token_acc': 1.0,\n",
+       " 'token_p': 1.0,\n",
+       " 'token_r': 1.0,\n",
+       " 'token_f': 1.0,\n",
+       " 'sents_p': None,\n",
+       " 'sents_r': None,\n",
+       " 'sents_f': None,\n",
+       " 'tag_acc': None,\n",
+       " 'pos_acc': None,\n",
+       " 'morph_acc': None,\n",
+       " 'morph_micro_p': None,\n",
+       " 'morph_micro_r': None,\n",
+       " 'morph_micro_f': None,\n",
+       " 'morph_per_feat': None,\n",
+       " 'dep_uas': None,\n",
+       " 'dep_las': None,\n",
+       " 'dep_las_per_type': None,\n",
+       " 'ents_p': 0.7777777777777778,\n",
+       " 'ents_r': 0.5,\n",
+       " 'ents_f': 0.6086956521739131,\n",
+       " 'ents_per_type': {'ADDRESS': {'p': 0.6, 'r': 1.0, 'f': 0.7499999999999999},\n",
+       "  'PERSON': {'p': 0.0, 'r': 0.0, 'f': 0.0},\n",
+       "  'PHONE_NUMBER': {'p': 1.0, 'r': 1.0, 'f': 1.0},\n",
+       "  'EMAIL_ADDRESS': {'p': 1.0, 'r': 1.0, 'f': 1.0},\n",
+       "  'IN_AADHAAR': {'p': 0.0, 'r': 0.0, 'f': 0.0}},\n",
+       " 'cats_score': 0.0,\n",
+       " 'cats_score_desc': 'macro F',\n",
+       " 'cats_micro_p': 0.0,\n",
+       " 'cats_micro_r': 0.0,\n",
+       " 'cats_micro_f': 0.0,\n",
+       " 'cats_macro_p': 0.0,\n",
+       " 'cats_macro_r': 0.0,\n",
+       " 'cats_macro_f': 0.0,\n",
+       " 'cats_macro_auc': 0.0,\n",
+       " 'cats_f_per_type': {},\n",
+       " 'cats_auc_per_type': {}}"
+      ]
+     },
+     "execution_count": 69,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "examples = []\n",
+    "scorer = Scorer()  \n",
+    "for text, annots in test_data_spacy_format:\n",
+    "    predicted=nlp1(text)\n",
+    "    example=Example.from_dict(predicted, annots)\n",
+    "    examples.append(example)\n",
+    "scorer.score(examples)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "67aa7d3d",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c6320fbb",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.10.12"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

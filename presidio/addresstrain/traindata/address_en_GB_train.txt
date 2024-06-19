@@ -1,0 +1,646 @@
+{
+    "annotations": [
+        [
+            "I live at Studio 9, Donald land, Adamsside, W1 0LP",
+            {
+                "entities": [
+                    [
+                        10,
+                        50,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Meet you at Flat 14D, Coleman locks, Saraside, SM6B 9HG",
+            {
+                "entities": [
+                    [
+                        12,
+                        55,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "I will be staying at Flat 14, Carl corner, Clarkeville, KT8W 9UE",
+            {
+                "entities": [
+                    [
+                        21,
+                        64,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Our office is located at 106 Fisher skyway, Mooreshire, LS48 6EL",
+            {
+                "entities": [
+                    [
+                        25,
+                        64,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Let's meet at Flat 08w, Ruth station, Turnerfurt, E8C 8QW for coffee.",
+            {
+                "entities": [
+                    [
+                        14,
+                        57,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "The party will be at Flat 5, Brenda parkway, Dunnshire, BT29 5DS",
+            {
+                "entities": [
+                    [
+                        21,
+                        64,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "I'll see you at Studio 49, Dominic views, North Teresaville, CW6A 3XT on expected date",
+            {
+                "entities": [
+                    [
+                        16,
+                        69,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "I have a doctor's appointment at Flat 53F, Rosemary brook, Brownfurt, PH0 1NW",
+            {
+                "entities": [
+                    [
+                        33,
+                        77,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "I will be staying at Studio 7, Thomas estate, South Ronald, L0G 0XG during my trip.",
+            {
+                "entities": [
+                    [
+                        21,
+                        67,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "The property is located at 426 Marcus meadows, East Johnfurt, CB2X 4LS.",
+            {
+                "entities": [
+                    [
+                        27,
+                        70,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Pick me up from 8 Duffy fort, Owenshire, M0 6QA.",
+            {
+                "entities": [
+                    [
+                        16,
+                        47,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "We are moving to Studio 7, Catherine overpass, Lake Grahamton, SL7 3SJ next month.",
+            {
+                "entities": [
+                    [
+                        17,
+                        70,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "The bus will depart from Studio 0, French landing, North Sarah, LD00 2AZ on time.",
+            {
+                "entities": [
+                    [
+                        25,
+                        72,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "My emergency contact address is Flat 3, Jones valley, Katiebury, HG79 5AU.",
+            {
+                "entities": [
+                    [
+                        32,
+                        73,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "My flight departs from Studio 00Y, Thompson inlet, Marilynland, W4A 2UE on time.",
+            {
+                "entities": [
+                    [
+                        23,
+                        71,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Emergency contact address: 078 Williams fords, Popechester, G1E 6XX.",
+            {
+                "entities": [
+                    [
+                        27,
+                        67,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Pick-up point: 334 Palmer lane, North Simonview, KY80 5BN.",
+            {
+                "entities": [
+                    [
+                        15,
+                        57,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "The parcel will go to Flat 23W, Rebecca garden, North Janice, L6A 0RH.",
+            {
+                "entities": [
+                    [
+                        22,
+                        69,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Expect delivery at Studio 17C, Bryan junctions, Lake Darrenchester, HG4 4HL on a date",
+            {
+                "entities": [
+                    [
+                        19,
+                        75,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Our office, situated at 56 Jake freeway, Paulmouth, NE01 4HF, welcomes visitors.",
+            {
+                "entities": [
+                    [
+                        24,
+                        60,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Address: 5 James club, East Elliot, CO77 4HU",
+            {
+                "entities": [
+                    [
+                        9,
+                        44,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Mailing Address: Studio 85K, Johnson street, North Geoffreyshire, BT0 7GF",
+            {
+                "entities": [
+                    [
+                        17,
+                        73,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Billing Address: Flat 53, Richard burg, Leonardshire, S2 5GP",
+            {
+                "entities": [
+                    [
+                        17,
+                        60,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Permanent Address: 65 Kay squares, Benjaminchester, EC41 5YW",
+            {
+                "entities": [
+                    [
+                        19,
+                        60,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Address - 559 Clifford pass, Cartwrightstad, L8W 1EP",
+            {
+                "entities": [
+                    [
+                        10,
+                        52,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Mailing Address - 08 Alan cliff, South Ross, W5 1QS",
+            {
+                "entities": [
+                    [
+                        18,
+                        51,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Billing Address - Flat 6, Sara ford, Griffithsside, ST8R 7JU",
+            {
+                "entities": [
+                    [
+                        18,
+                        60,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Permanent Address - Studio 72, Stacey bypass, East Karenfort, KT0H 0ZW",
+            {
+                "entities": [
+                    [
+                        20,
+                        70,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "address: Flat 36, Ben plains, South Kieran, HG5 2QP",
+            {
+                "entities": [
+                    [
+                        9,
+                        51,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Mailing address: 8 Abdul circles, West Christopher, E13 7WA",
+            {
+                "entities": [
+                    [
+                        17,
+                        59,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Billing address: Flat 9, Robinson route, Port Suzanne, N24 0DQ",
+            {
+                "entities": [
+                    [
+                        17,
+                        62,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Permanent address: 399 Clark mills, Lake Bradleyhaven, E9 5RP",
+            {
+                "entities": [
+                    [
+                        19,
+                        61,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "address: 750 Sophie haven, East Ruth, M58 0FU",
+            {
+                "entities": [
+                    [
+                        9,
+                        45,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "mailing address: Flat 80G, Henry crescent, South Suzanne, PO83 7GP",
+            {
+                "entities": [
+                    [
+                        17,
+                        66,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "billing address: 1 Ross hill, Faulknerborough, KW9 9JS",
+            {
+                "entities": [
+                    [
+                        17,
+                        54,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "permanent address: 40 Damien lights, Susanfurt, N4S 7JP",
+            {
+                "entities": [
+                    [
+                        19,
+                        55,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "address 7 Gemma lane, Shawburgh, B8J 9GN",
+            {
+                "entities": [
+                    [
+                        8,
+                        40,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "mailing address Studio 1, Darren summit, Browntown, S40 9DL",
+            {
+                "entities": [
+                    [
+                        16,
+                        59,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "billing address 92 Williams rapid, Lake Terencebury, LN7 2AA",
+            {
+                "entities": [
+                    [
+                        16,
+                        60,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "permanent address 996 Davies springs, North Nicolaport, M8 7EL",
+            {
+                "entities": [
+                    [
+                        18,
+                        62,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "It is a great way of working. The thought was first given by Pauline Evans. He used to stay as Studio 3, Walsh village, Lake Lawrencechester, PA88 8ET.",
+            {
+                "entities": [
+                    [
+                        61,
+                        74,
+                        "PERSON"
+                    ],
+                    [
+                        95,
+                        150,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Hi, my name is Maureen Williams, you can reach me at +441174960233, and I live at 56 Burgess stravenue, Leighburgh, YO9 3EP. I do have an email thompsondonna@example.com, and my aadhar number is 642896540756",
+            {
+                "entities": [
+                    [
+                        15,
+                        31,
+                        "PERSON"
+                    ],
+                    [
+                        82,
+                        123,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "I'm Miss Bethany Wade, my phone number is +44161 4960301 and my address is Studio 55c, Dominic meadow, Lake Dianeshire, N9 1GA",
+            {
+                "entities": [
+                    [
+                        4,
+                        21,
+                        "PERSON"
+                    ],
+                    [
+                        75,
+                        126,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "You can contact me at +44(0)131 4960841 My name is Pauline White and I live at 44 Brown trail, Wilkinsside, B3 3TT",
+            {
+                "entities": [
+                    [
+                        51,
+                        64,
+                        "PERSON"
+                    ],
+                    [
+                        79,
+                        114,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "I will be staying at Studio 25, Denise view, Grahamberg, LA5 3RL during vacation",
+            {
+                "entities": [
+                    [
+                        21,
+                        64,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Lindsey Dennis. The clear action plan provides a disciplined approach to achieving our financial goals. reach him at 639 Kyle parks, South George, DT6 0AG +44(0)1914960687 stephensdebra@example.com",
+            {
+                "entities": [
+                    [
+                        0,
+                        14,
+                        "PERSON"
+                    ],
+                    [
+                        117,
+                        154,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "817 Herbert dale, New Rebecca, IP8 8SD is clear and simple to find. Get started on a financial planning journey.",
+            {
+                "entities": [
+                    [
+                        0,
+                        38,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Pre-emptive steps and better planning help meet peak power demand in April. contact Studio 6, Coleman knolls, Martynside, N60 9GD (0117)4960502 kathryn25@example.net",
+            {
+                "entities": [
+                    [
+                        84,
+                        129,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Ugly Kieran Murphy-Sanders did not give up 8 Jenkins cliff, North Shirleymouth, B60 3XF",
+            {
+                "entities": [
+                    [
+                        5,
+                        26,
+                        "PERSON"
+                    ],
+                    [
+                        43,
+                        87,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "but enriched! The Studio 45K, Bernard rue, Amyhaven, G9W 2LH won\u2019t simply take you to wiki pages that explain concepts by enlisting a wall of words.",
+            {
+                "entities": [
+                    [
+                        18,
+                        60,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ],
+        [
+            "Let's meet for coffee in the morning at 92 Smith courts, South Owen, S47 0BP.",
+            {
+                "entities": [
+                    [
+                        40,
+                        76,
+                        "ADDRESS"
+                    ]
+                ]
+            }
+        ]
+    ]
+}
