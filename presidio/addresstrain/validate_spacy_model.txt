@@ -8,11 +8,6 @@ from spacy.training import Example
 from spacy.scorer import Scorer
 from spacy.tokens import Doc
 
-# List of country codes
-country_codes = [
-    "en_IN", "en_AU", "en_CA", "en_GB", "en_NZ",
-    "en_US", "es_ES", "es_MX", "dk_DK"
-]
 
 def convert_to_spacy_format(input_file, nlp):
     with open(input_file, 'r', encoding='utf-8') as f:
@@ -25,6 +20,12 @@ def convert_to_spacy_format(input_file, nlp):
         entities_spacy_format = [(start, end, label) for start, end, label in entities]
         data_spacy_format.append((text, {'entities': entities_spacy_format}))
     return data_spacy_format
+
+# List of country codes
+country_codes = [
+    "en_IN", "en_AU", "en_CA", "en_GB", "en_NZ",
+    "en_US", "es_ES", "es_MX", "dk_DK"
+]
 
 def validate_model(model_path, validation_dir):
     # Load the trained spaCy model
