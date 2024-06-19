@@ -62,31 +62,25 @@ def convert_and_add_to_docbin(input_file, nlp, db):
         doc.ents = ents
         db.add(doc)
 
+# List of country codes
+country_codes = [
+    "en_IN", "en_AU", "en_CA", "en_GB", "en_NZ",
+    "en_US", "es_ES", "es_MX", "dk_DK"
+]
 def main(train_dir, test_dir, output_dir):
-    # Ensure dependencies are installed
-    ensure_dependencies()
-    
-    # Load the spaCy model
+    # Load the large spaCy model
     nlp = spacy.load("en_core_web_lg")
-    
     # Create DocBin objects
     train_db = DocBin()
     test_db = DocBin()
-
     # Convert and combine training and testing data for each country
     for country_code in country_codes:
         # Define file paths
         train_input_file = f"{train_dir}/address_{country_code}_train.json"
         test_input_file = f"{test_dir}/address_{country_code}_test.json"
-        
         # Convert and add training data to DocBin
         convert_and_add_to_docbin(train_input_file, nlp, train_db)
-        print(f"Added {train_input_file} to train DocBin")
-        
-        # Convert and add testing data to DocBin
         convert_and_add_to_docbin(test_input_file, nlp, test_db)
-        print(f"Added {test_input_file} to test DocBin")
-
     # Save combined data to .spacy files
     train_output_file = f"{output_dir}/train.spacy"
     test_output_file = f"{output_dir}/test.spacy"
@@ -95,12 +89,10 @@ def main(train_dir, test_dir, output_dir):
     # Train the spaCy model
     command = f"python3 -m spacy train config.cfg --output {output_dir} 
               --paths.train {train_output_file} --paths.dev {test_output_file}"
-    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, 
+              stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
-    # Print the training output
-    print(stdout.decode("utf-8"))
-    if stderr:
-        print(stderr.decode("utf-8"))
+    . . .  Code deleted for brevity . . . 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train a spaCy NER model with address data.")
