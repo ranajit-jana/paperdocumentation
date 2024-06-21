@@ -9,10 +9,14 @@ police raided {address} and they did not find anything
 {address} was always unreachable for trucks
 iPhone is produced in factory {address}
 Delivery person will be visiting {address}
+
+
 Hi, my name is {name}, you can reach me at {phone_number}, and I live at {address}
 I'm {name}, my phone number is {phone_number} and my address is {address}
 You can contact me at {phone_number} My name is {name} and I live at {address}
 Give me a call anytime at {phone_number}
+
+
 Drop me a note at {email}
 {name} receive record patent approvals in FY24.
 
