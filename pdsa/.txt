@@ -1,17 +1,12 @@
-BankAccountRecognizer
 
-AadhaarRecognizer
 
-CreditCardRecognizer
 
-CreditCardSecurityCodeRecognizer
-
-CreditCardExpiryDateRecognizer
-
-DateOfBirthRecognizer
-
-MothersMaidenNameRecognizer
-
-DateOfBirthRecognizer
-
-PANNumberRecognizer
+    BankAccountRecognizer
+    AadhaarRecognizer
+    CreditCardRecognizer
+    CreditCardSecurityCodeRecognizer
+    CreditCardExpiryDateRecognizer
+    DateOfBirthRecognizer
+    MothersMaidenNameRecognizer
+    DateOfBirthRecognizer
+    PANNumberRecognizer
